@@ -1,0 +1,187 @@
+weapon green_laser
+{
+	type		laser
+	damage		hp
+	color		green
+}
+weapon yellow_missile
+{
+	type		missile
+	damage		hp
+	speed		90
+	sound		turret_shot.wav
+	max_time	10000
+	ogol
+	{
+		opacity 50
+		$largeur=4
+		$hauteur=15
+		$diago=10
+		color black
+		filled yellow
+		{
+			mirror
+			{
+				tr 90
+				fw $largeur
+				tl 90
+				fw $hauteur
+				tl 45
+				fw $diago
+				tr 45
+			}
+		}
+	}
+}
+
+weapon red_missile
+{
+	type		missile
+	damage		hp
+	speed		140
+	sound		turret_shot.wav
+	enhanced_targeting
+	max_time	15000
+	spin_factor	20
+	ogol
+	{
+		opacity 50
+		$largeur=5
+		$hauteur=20
+		$diago=10
+		color black
+		filled red
+		{
+			mirror
+			{
+			tr 90
+			fw 6
+			filled yellow
+			{
+						fw 8
+						tl 90
+						fw 12
+						tl 45
+						fw 12
+						tl 135
+						fw 15
+			}
+			tr 180
+			fw 20
+			tl 45
+			fw 12
+			tr 45
+			}
+		}
+	}
+}
+
+weapon green_missile
+{
+	type		missile
+	damage		hp
+	speed		150
+	sound		turret_shot.wav
+	max_time	4000
+	spin_factor	10
+	enhanced_targeting
+	ogol
+	{
+		opacity 75
+		$largeur=2
+		$hauteur=30
+		$diago=3
+		color black
+		filled green
+		{
+			mirror
+			{
+				tr 90
+				fw $largeur
+				tl 90
+				fw $hauteur
+				tl 45
+				fw $diago
+				tr 45
+			}
+		}
+	}
+}
+weapon yellow_laser
+{
+	type		laser
+	damage		hp
+	color		yellow
+}
+
+weapon red_laser
+{
+	type		laser
+	damage		hp
+	color		red
+#	particles
+}
+
+weapon cold_laser
+{
+	type		cold_laser
+	damage		slow_down
+	color		blue
+}
+
+weapon triple_green_laser
+{
+	type		laser
+	damage		hp
+	color		orange
+}
+
+weapon rockets_red
+{
+	type		missile
+	damage		hp
+	speed		55
+	sound		turret_shot.wav
+	enhanced_targeting
+	max_time	15000
+	spin_factor	20
+	ogol
+	{
+		opacity 100
+		$largeur=130
+		$hauteur=70
+		$diago=130
+		color orange
+		filled red
+		{
+			mirror
+			{
+			filled orange
+			{
+			tr 90
+			fw 6
+			}
+			filled black
+			{
+						fw 8
+						tl 90
+						fw 12
+						tl 45
+						fw 12
+						tl 135
+						fw 15
+			}
+			filled red
+			{
+			tr 180
+			fw 20
+			tl 45
+			fw 12
+			tr 45
+			}
+			}
+		}
+	}
+}
+
+

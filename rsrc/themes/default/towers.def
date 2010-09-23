@@ -1,0 +1,132 @@
+#include weapon.def
+
+tower 0
+{
+	coord			(583,39)
+	comments		"Green laser"
+	name 			"Green laser tower"
+	cost_money		20
+	damage			20
+	damage_increase	1450
+	range			60
+	range_increase	1042
+	text			"Fire green laser"
+	weapon			green_laser
+}
+
+tower 1
+{
+	coord			(622,39)
+	comments		"Red laser"
+	name			"Red laser tower"
+	cost_money		60
+	damage			40
+	damage_increase	144
+	range			80
+	range_increase	1050
+	weapon			red_laser
+	text			"Red reflection laser"
+}
+
+tower 2
+{
+	coord			(661,39)
+	comments		"Fast, but slow turn missiles"
+	name			"Green missile-1 Tower"
+	damage 			80
+	cost_money		140
+	range 120
+	weapon			green_missile
+	weapon_count	1
+	max_targets		1
+	cool_down		500
+}
+
+tower 3
+{
+	coord			(700,39)
+	comments		"Slow targets"
+	name			"Cold laser tower"
+	cost_money		30
+	damage			20
+	damage_increase	1450
+	range			80
+	range_increase	1042
+	weapon 			cold_laser
+}
+
+tower 4
+{
+	coord			(583,75)
+	comments		"Fast guided missiles, medium turn"
+	name 			"Yellow guided missiles"
+	damage 			100
+	cost_money		400
+	range 			120
+	weapon			yellow_missile
+	weapon_count	5
+	max_targets		10
+	cool_down		100
+}
+
+tower 5
+{
+	coord			(622,75)
+	comments		"Slow guided missiles, enhanced computer system" 
+	name			"Slow accurate missiles"
+	damage			100
+	cost_money		400
+	range			120
+	weapon			red_missile
+	weapon_count	10
+	max_targets		5
+	cool_down		451
+}
+
+tower 6
+{
+	coord			(661,75)
+	name			"Dual green missiles"
+	damage			150
+	cost_money		400
+	range			90
+	weapon			green_missile
+	weapon_count	2
+	max_targets		2
+	cool_down		250
+}
+
+tower 7
+{
+	coord			(700,75)
+	name			"Little Read Spammer"
+	cost_money		2800
+	damage			600
+	damage_increase	144
+	range			90
+	range_increase	104
+	weapon			yellow_laser
+}
+
+tower 8
+{
+	coord			(583,111)
+	name			"Green Three Laser"
+	cost_money		4000
+	damage			1000
+	weapon			triple_green_laser
+}
+
+tower 9
+{
+	coord			(622,111)
+	name			"Red Rockets"
+	cost_money		7000
+	damage			2500
+	damage_increase	3000
+	range			150
+	range_increase	1040
+	weapon			rockets_red		
+
+}
+
