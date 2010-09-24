@@ -100,6 +100,8 @@ float bulletMissile::getSpeed() const
 
 int bulletMissile::update(int iTimeEllapsedms)
 {
+	if (iTimeEllapsedms==0)
+		return false;
 	bool bRet=missileBase::update(iTimeEllapsedms);
 	if (miMaxTimems>0 && miMaxTimems<1000)
 	{
@@ -129,9 +131,10 @@ int bulletMissile::update(int iTimeEllapsedms)
 					bFalloutDirection=true;
 				else
 				{
-					float my1=(-b-sqrt(delta))/(2*a);
+					float sq=sqrt(delta);
+					float my1=(-b-sq)/(2*a);
 					float t1=D.y()/(my1-W.y());
-					float my2=(-b+sqrt(delta))/(2*a);
+					float my2=(-b+sq)/(2*a);
 					float t2=D.y()/(my2-W.y());
 					float mx,my=my1;
 					//cout << (my1-W.y()) << endl;
@@ -165,9 +168,10 @@ int bulletMissile::update(int iTimeEllapsedms)
 					bFalloutDirection=true;
 				else
 				{
-					float mx1=(-b-sqrt(delta))/(2*a);
+					float sq=sqrt(delta);
+					float mx1=(-b-sq)/(2*a);
 					float t1=D.x()/(mx1-W.x());
-					float mx2=(-b+sqrt(delta))/(2*a);
+					float mx2=(-b+sq)/(2*a);
 					float t2=D.x()/(mx2-W.x());
 					float my,mx=mx1;
 					//cout << (mx1-W.x()) << endl;
@@ -207,6 +211,15 @@ int bulletMissile::update(int iTimeEllapsedms)
 		//mDirection=oDirection;
 		mDirection.normalize();
 		mDirection.scalarMultiply(getSpeed()*iTimeEllapsedms/1000);
+
+		// mDirection is the direction and the distance of the missile displacement.
+		// We check if the segment [mpos, mpos+distance] was close to the target.
+		// Checking only distance between mpos-target is not enough due to fps reasons.
+		// Without that, missiles passes through the target and try after to turn back to the
+		// target, resulting in tons of missiles tracking their targets.
+		// The equation of the line is ax+by+c=0 (in order to handle vertical line)
+		// The distance d=abs(a.x1+b.y1+c)/sqrt(a2+b2) with P(x1,y1)=shoot point
+
 		mpos.add(mDirection);
 		coord oDistance=mpTarget->getShootPoint();
 		oDistance.substract(getCoord());
