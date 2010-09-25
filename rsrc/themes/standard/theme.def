@@ -1,0 +1,89 @@
+	game_image 'vierge.png'
+	
+	small_font  'WHITRABT' 12 red
+
+	bank		(121,21)
+	interest	(421,42)
+	score		(421,62)
+	lives		(515,21)
+	level		(515,42)
+	bonus		(515,62)
+	
+	live_lost_sound	"scifi018.wav"
+	
+	game_area	(11,96)-(556,537)
+	
+	map_file "map_6.tmx"
+	
+	towers_areas
+	{
+		pick_area	(574,34)-(735,170)
+		name_area	(582,198)-(730,210)
+		info_area	(582,216)-(730,330)
+		sell_area	(583,378)-(728,397)
+		font		'WHITRABT' 10 white
+	}
+	
+	music
+	{
+		"acit.ogg"
+		"Skiessi-Advance.ogg"
+	}
+	
+	current_next
+	{
+		font		'WHITRABT' 10 white
+		area		(575,436)-(734,500)
+		rows		2
+		cell_size	32
+		margin_y	1
+		text_x		614
+	}
+
+	
+	
+	button_font 'WHITRABT' 12 white
+	
+	hudge_font 'SPACE_AGE' 70 brown
+	
+	button graphics
+	{
+		action menu_graphics
+		area		(15,60)-(91,77)
+	}
+	
+	button music
+	{
+		action menu_music
+		area		(94,60)-(171,77)
+	}
+	
+	button options
+	{
+		action menu_options
+		area	(174,60)-(251,77)
+	}
+	
+	button quit
+	{
+		action quit
+		area		(574,509)-(669,544)
+	}
+	
+	button pause
+	{
+		action pause
+		area		(676,509)-(736,544)
+	}
+	
+	button send_vectoids
+	{
+		action next_wave
+		area	(258,15)-(343,50)
+	}
+
+	button sell_tower
+	{
+		action sell_tower
+		area	(583,378)-(728,397)
+	}

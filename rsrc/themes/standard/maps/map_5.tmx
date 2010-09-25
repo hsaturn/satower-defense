@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="17" height="14" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="terrain" tilewidth="32" tileheight="32" spacing="1" margin="1">
+  <image source="terrain.png" trans="ff00ff"/>
+ </tileset>
+ <tileset firstgid="49" name="tmw_desert_spacing" tilewidth="32" tileheight="32" spacing="1" margin="1">
+  <image source="tmw_desert_spacing.png" trans="ff00ff"/>
+ </tileset>
+ <tileset firstgid="97" name="walk_build" tilewidth="32" tileheight="32" spacing="1" margin="1">
+  <image source="../../../walk_build.png" trans="ff00ff"/>
+ </tileset>
+ <tileset firstgid="113" name="nethack" tilewidth="32" tileheight="32">
+  <image source="nethack.png"/>
+ </tileset>
+ <layer name="map_0" width="17" height="14">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA5NjYGCQowJWQsLkqgOJMRBphhweMyh1x0jC1AgHfPFBTXdQy61cJJqBbi857qB2GAEA/rRqKbgDAAA=
+  </data>
+ </layer>
+ <layer name="walkable" width="17" height="14">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA0tmYGBIpgAnQmlkgE89PnWDxYyRhKkRDvQyY6Dciq6HUjOSqOB2AKkDSuG4AwAA
+  </data>
+ </layer>
+ <layer name="buildable" width="17" height="14">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA0thYGBIoQAzINEMSHx86nGpGyxmjCRMjXCglxkD5VZ0PZSaQa77kQEAJmThO7gDAAA=
+  </data>
+ </layer>
+ <layer name="map_1" width="17" height="14" opacity="0.97">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgoAzUMEPozVB6CzN+9cSqIxdsQXMPpeqGO6B1fBALiImPgXIrur2Upp0GMvUh2wsAhHvK7bgDAAA=
+  </data>
+ </layer>
+ <layer name="map_2" width="17" height="14">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWjYBQMNQAA3akGcbgDAAA=
+  </data>
+ </layer>
+ <layer name="map_3" width="17" height="14">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgoA5gBGImIGamQB0nEHMBMTcBM/CpEwRiISAWJmAGseqGOyA23vABYuMNHyAmPgbKrej2kpN2qB1GAOZD+Li4AwAA
+  </data>
+ </layer>
+</map>

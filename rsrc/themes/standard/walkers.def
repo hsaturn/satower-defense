@@ -1,0 +1,952 @@
+walker zelow_99
+{
+	boss
+	short_desc "Zelow Boss"
+	boss_music "Jasen Tamiia - Playing with Danger (Ubercharged Remix).ogg"
+	scale 30
+	rotation_speed 300
+	health 200000
+	speed 10
+	bank 5750
+	max_count 1
+	boss_kills	5
+	
+	ogol
+	{
+		fwu 40
+		tr 90
+		fwu 40
+
+		color orange
+		repeat 4
+		{
+			tr 90
+			fw 80
+		}
+		
+		fwu 40
+		tr 90
+		fwu 120
+		
+		color orange
+		repeat 4
+		{
+			tr 90
+			fw 160
+		} 
+		color orange
+		circle 50
+		color black
+		tr 135
+		fw 226
+		color orange
+		circle 50
+		color black
+		tr 135
+		fwu 160
+		color orange
+		circle 50
+		color black
+		tr 135
+		fw 226
+		color orange
+		circle 50
+		color black
+		tl 180
+		fwu 113
+		color red
+		circle 277
+	}
+}
+
+walker A1_four_arrows
+{
+	boss
+	max_count 2
+	boss_music "Jasen Tamiia - Playing with Danger (Ubercharged Remix).ogg"
+	short_desc "Four arrows"
+	scale 45
+	rotation_speed 180
+	health 150
+	speed 70
+	bank 18
+
+	ogol
+	{
+		$size=20
+		
+		$size2=$size
+		add $size2,10
+		opacity 50
+		filled cyan
+		{
+			color blue
+			rotates 4
+			{
+				mirror
+				{
+					tr 45
+					fwu 14
+					tl 45
+					fw 50
+					tr 90
+					fw 30
+					tl 135
+					fw 56
+					tr 45
+				}
+			}
+		}
+	}
+}
+
+
+walker cool_cross
+{
+	short_desc	"Cross"
+	scale 40
+	rotation_speed 180
+	health 400
+	speed 40
+	bank 19
+
+	ogol
+	{
+		$size=20
+		
+		$size2=$size
+		add $size2,10
+		filled orange
+		{
+			color black
+			rotates 4
+			{
+				mirror
+				{
+					tr 45
+					fwu 14
+					tl 45
+					fw 50
+					tr 90
+					fw $size
+					tl 90
+					fw $size
+					tl 90
+					fw $size2
+					tr 90
+				}
+			}
+		}
+	}
+}
+
+walker simple_star
+{
+	short_desc "Polaris"
+	scale 50
+	rotation_speed 180
+	health 300
+	speed 30
+	bank 15
+
+	ogol
+	{
+		color yellow
+		rotates 8
+		{
+			fw 50
+			bwu 50
+		}
+	}
+}
+
+walker square_green_spiral
+{
+	short_desc "Green spiral"
+	scale 15
+	rotation_speed 180
+	health 150
+	speed 30
+	bank 10
+
+	ogol
+	{
+		opacity 40
+		tr 135
+		fwu 35
+		tl 135
+		$length=50
+		filled green
+		{
+			repeat 20
+			{
+				fw $length
+				add $length,20
+				tl 90
+			}
+		}
+	}	
+}
+
+walker red_spiral
+{
+	short_desc "Red spiral"
+	scale 10
+	rotation_speed 360
+	health 150
+	speed 30
+	bank 10
+
+	ogol
+	{
+		opacity 30
+		$length=20
+		filled red
+		{
+		repeat 50
+		{
+			fw $length
+			add $length,2
+			tl 20
+		}
+		}
+	}	
+}
+	
+walker a0
+{
+	short_desc "Flower"
+	scale 40
+	rotation_speed 50
+	health 300
+	speed 10
+	bank 10
+
+	ogol
+	{
+		opacity 50
+		filled yellow
+		{
+			opacity 100
+			rotates 5
+			{
+				mirror
+				{
+					color black
+					tr 45
+					fw 45
+					tl 90
+					fw 45
+					tr 45
+				}
+			}
+		}
+	}	
+}
+	
+walker a00_red_star_yellow_border
+{
+	short_desc "Yellow Red star"
+	scale 40
+	rotation_speed 260
+	health 400
+	speed 50
+	bank 22
+	
+	ogol
+	{
+		bwu 90
+		
+		opacity 30
+		filled red
+		{
+			color yellow
+			repeat 4
+			{
+				repeat 6
+				{
+					fw 21
+					tr 15
+				}
+				fw 21
+				tr 180
+			}
+		}
+	}
+}
+
+
+walker A_01_five_star_red
+{
+	short_desc "Red star"
+	scale 80
+	rotation_speed 260
+	health 300
+	speed 50
+	bank 19
+	
+	ogol
+	{
+		tl 160
+		fwu 50
+		tr 160
+		opacity 75
+		filled red
+		{
+			color black
+			repeat 5
+			{
+				fw 100
+				tr 144
+			}
+		}
+	}
+}
+
+walker A_02_yellow_square_black_border
+{
+	short_desc "Square"
+	scale 50
+	rotation_speed 260
+	health 400
+	speed 30
+	bank 18
+	
+	ogol
+	{
+		opacity 25
+		filled yellow
+		{
+			color black
+			opacity 50
+			repeat 4
+			{
+				fw 40
+				repeat 3
+				{
+					tl 30
+					fw 10
+				}
+			}
+		}
+	}
+}
+
+walker A0_weak_off_center_triangle
+{
+	short_desc "Triangle"
+	scale 45
+	rotation_speed 260
+	health 50
+	speed 40
+	bank 10
+	
+	ogol
+	{
+		opacity 10
+		filled orange
+		{
+			color yellow
+			opacity 50
+			repeat 3
+			{
+				fw 100
+				tr 120
+			}
+			tr 30
+			fwu 50
+			shootpoint
+		}
+	}
+}
+
+walker A_02
+{
+	short_desc "Star vessel"
+	scale 50
+	rotation_speed 90
+	follow_direction
+	health 120
+	speed 45
+	bank 13
+
+	ogol
+	{
+		opacity 20
+		filled black
+		{
+			opacity 50
+			color red
+			tl 45
+			fwu 20
+			rotates 4
+			{
+				tl  60
+				fw 58
+				tl 150
+				fw 58
+				color yellow
+			}
+		}
+	}
+}
+
+
+walker A_3
+{
+	short_desc "Orange flower"
+	scale 30
+	rotation_speed 360
+	health 450
+	speed 45
+	bank 22
+	
+	ogol
+	{	
+		opacity 30
+		filled orange
+		{
+			opacity 50
+			color yellow
+			
+			rotates 4
+			{
+				mirror
+				{
+					color yellow
+					fw 50
+					repeat 4
+					{
+						tl 25
+						fw 15
+					}
+					color red
+				}
+			}
+		}
+	}
+}
+
+walker Plane_1
+{
+	short_desc "Yellow bomber"
+	scale 70
+	rotation_speed 0
+	health 350
+	speed 50
+	follow_direction
+	bank 20
+	
+	ogol
+	{
+		opacity 25
+		filled yellow
+		{
+			opacity 100
+			color yellow
+			bwu 140
+			mirror
+			{
+				tr 90
+				fw 20
+				repeat 9
+				{
+					tl 20
+					fw 2
+				}
+				fw 10
+				tr 90
+
+				tr 5
+				fw 80
+				tr 85
+				fw 5
+				repeat 2
+				{
+					fw 40
+					tl 90
+					fw 10
+					tl 90
+				}
+
+				fw 80
+				tl 30
+				fw 5
+				tl 30
+				fw 5
+				tl 30
+				fw 5
+				tl 30
+				fw 10
+				tl 30
+				fw 10
+				tl 20
+				fw 78
+				tr 70
+				fw 10
+				fw 10
+				tl 80
+				fw 13
+				tr 90
+				fw 8
+				tr 90
+				fw 20
+				bw 40
+				fw 20
+				tr 90
+				fw 8
+			}
+		}
+	}
+}
+
+walker Plane_2
+{
+	disabled
+	scale 70
+	rotation_speed 55
+	health 1650
+	speed 4
+	bank 50
+	fixed_spin
+	
+	ogol
+	{
+		fwu 200
+		tr 90
+		opacity 25
+		filled cyan
+		{
+			opacity 75
+			color cyan
+			mirror
+			{
+				tr 90
+				fw 20
+				repeat 9
+				{
+					tl 20
+					fw 2
+				}
+				fw 10
+				tr 90
+				tr 5
+				fw 80
+				shootpoint
+				tr 85
+				fw 5
+				repeat 2
+				{
+					fw 40
+					tl 90
+					fw 10
+					tl 90
+				}
+				fw 80
+				tl 30
+				fw 5
+				tl 30
+				fw 5
+				tl 30
+				fw 5
+				tl 30
+				fw 10
+				tl 30
+				fw 10
+				tl 20
+				fw 78
+				tr 70
+				fw 10
+				fw 10
+				tl 80
+				fw 13
+				tr 90
+				fw 8
+				tr 90
+				fw 20
+				bw 40
+				fw 20
+				tr 90
+				fw 8
+			}
+		}
+	}
+}
+
+
+walker Shuriken
+{
+	short_desc "Shuriken"
+	scale 50
+	rotation_speed 300
+	health 320
+	speed 90
+	bank 28
+
+	ogol
+	{
+		opacity 25
+		filled yellow
+		{
+			opacity 60
+			color yellow
+			rotates 3
+			{
+				fw 50
+				tl 45
+				fw 50
+				tl 160
+				fw 50
+				tr 45
+				fw 50
+			}
+		}
+	}	
+}
+
+walker Treffle
+{
+	scale 30
+	rotation_speed 0
+	follow_direction
+	health 450
+	speed 70
+	bank 27
+	
+	ogol
+	{
+		opacity 25
+		filled green
+		{
+			opacity 75
+			color red
+			rotates 3
+			{
+				mirror
+				{
+					tr 45
+					fwu 20
+					tl 50
+					fw 80
+					tr 60
+					color red
+					color yellow
+					repeat 7
+					{
+						fw 10
+						tl 20
+					}
+					tl 5
+				}
+			}
+		}
+	}
+}
+
+walker crystal
+{
+	short_desc "Crystal"
+	scale 50
+	rotation_speed 0
+	health 3000
+	speed 4
+	follow_direction
+	bank 87
+
+	ogol
+	{
+		opacity 60
+		rotates 3
+		{
+			color cyan
+			
+			mirror
+			{
+			tr 10
+			fw 60
+				color red
+				color yellow
+			tl 45
+			fw 20 
+	
+				tl 55
+			}
+		}
+	}
+}
+walker four_angle
+{
+	rotation_speed 160
+	health 700
+	speed 35
+	scale 80
+	bank 27
+	
+	ogol
+	{
+		opacity 25
+		filled cyan
+		{
+			color cyan
+			opacity 50
+			repeat 4
+			{
+				fw 50
+				tr 110
+				fw 39
+				tr 110
+				fw 50
+				tl 130
+			}
+		}
+	}
+}
+
+walker bi_circle
+{
+	short_desc "B&W Ring"
+	scale 180
+	rotation_speed 300
+	health 650
+	speed 20
+	bank 23
+	
+	ogol
+	{
+		opacity 50
+		fwu 16
+		tr 90
+		bwu 5
+		repeat 5
+		{
+			color white
+			fw 10
+			tr 36
+			color black
+			fw 10
+			tr 36
+		}
+	}
+}
+
+walker off_center_circle
+{
+	disabled
+	scale 40
+	rotation_speed 180
+	health 2000
+	speed 7
+	bank 59
+	
+	ogol
+	{
+		color white
+		opacity 50
+		fwu 270
+		shootpoint
+		circle 50
+	}
+}
+
+
+walker nuclear
+{
+	short_desc "Nuclear"
+	scale 50
+	health 1100
+	rotation_speed 0
+	speed 50
+	bank 42
+	
+	ogol
+	{
+		opacity 50
+		color red
+		circle 25 
+		circle 100
+		
+		repeat 3
+		{
+			opacity 50
+			filled yellow
+			{
+				opacity 100
+				pu
+				tl 30
+				fwu 30
+				pd
+				
+				fw 45
+				tr 110
+				fw 39
+				tr 20
+				fw 39
+				tr 110
+				fw 45
+				tr 60
+				fw 32
+				
+				bw 15
+				tr 90
+				bwu 31
+				tr 120
+			}
+		}
+	}
+}
+
+
+walker off_center_circles
+{
+	short_desc "Twin b&w circles"
+	scale 40
+	rotation_speed 360
+	health 400
+	speed 50
+	bank 22
+	
+	ogol
+	{
+		opacity 50
+		color white
+		fwu 70
+		circle 50
+		bwu 140
+		color black
+		circle 50
+	}
+}
+
+walker off_center_wand
+{
+	scale 40
+	rotation_speed 360
+	health 1300
+	speed 50
+	bank 48
+
+	ogol
+	{
+		color cyan
+		opacity 50
+		fw 80
+		circle 20
+	}
+}
+
+walker target
+{
+	short_desc "Target"
+	scale 60
+	health 800
+	speed 50
+	bank 33
+
+	ogol
+	{
+		opacity 50
+		bwu 50
+		tr 90
+		fw 50
+		color blue
+		repeat 3
+		{
+			tl 90
+			fw 100
+		}
+		tl 90
+		fw 50
+		color yellow
+		tl 90
+		fwu 50
+		circle 100	
+		circle 50
+		bwu 50
+		fw 100
+		bwu 50
+		tr 90
+		bwu 50
+		fw 100	
+	}
+}
+
+
+walker tri_losange
+{
+	scale 80
+	rotation_speed 300
+	health 1500
+	speed 45
+	bank 52
+
+
+	ogol
+	{
+		opacity 30
+		filled blue
+		{
+			color cyan
+			opacity 60
+			rotates 3
+			{
+				mirror
+				{
+					tr 30
+					fw 30
+					tl 60
+					fw 30
+					tl 60
+				}
+			}
+		}
+	}
+}
+walker vortex
+{
+	short_desc "Vortex"
+	scale 40
+	rotation_speed 50
+	health 500
+	speed 10	
+	bank 17
+
+	ogol
+	{
+		color blue
+		opacity 50
+		rotates 12
+		{
+			bwu 75
+			fw 100
+		}
+	}
+}
+
+
+walker white_square
+{
+	short_desc "Spin cube"
+	scale 50
+	rotation_speed 360
+	health 1500
+	speed 130
+	bank 69
+
+	ogol
+	{
+		color cyan
+		fwu 20
+		opacity 20
+		filled white
+		{
+			fw 50
+			tr	90
+			fw 50
+			tr	90
+			fw	50
+			tr 90
+			fw 50
+		}
+	}
+}
+

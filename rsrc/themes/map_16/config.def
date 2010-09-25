@@ -1,0 +1,5 @@
+
+
+include "../default/weapons.def"
+include "../default/towers.def"
+include "../default/walkers.def"
