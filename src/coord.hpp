@@ -14,11 +14,11 @@
 #include <iostream>
 #include <cfileparser.hpp>
 #include <math.h>
+#include "lineEquation.hpp"
 
 #include "vars.hpp"
 
 using namespace std;
-
 
 class coord
 {
@@ -62,8 +62,15 @@ class coord
 		void setXY(float x,float y){mx=x; my=y;}
 
 		void normalize();
+
+		float invnorm() const;	// Fast Inverse norm (1/norm) faster than norm()
 		float norm	()	const;
 		float module()	const;
+
+		// Find the equation of a line with p included in the line and this as a vector
+		// equation is returned into oLine
+		// Yet, a line equation is ax+by+c=0
+		void buildLineEquation(lineEquation &oLine,const coord &oP);
 
 		/**
 		 * Usual distance

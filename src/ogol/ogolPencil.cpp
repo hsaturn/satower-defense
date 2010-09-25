@@ -16,11 +16,6 @@
 
 ogolPencil::~ogolPencil()
 {
-	list<ogolVectoroid*>::iterator oit=mlstExplosion.begin();
-	while(oit!=mlstExplosion.end())
-	{
-		delete *oit++;
-	}
 	if (mpoPolygon)
 	{
 		delete mpoPolygon;
@@ -30,25 +25,6 @@ ogolPencil::~ogolPencil()
 float ogolPencil::getScale() const
 {
 	return gpGame->getOgolScale()*tileSizeY*mfScale/100;
-}
-
-void ogolPencil::drawExplosion(SDL_Surface* p)
-{
-	list<ogolVectoroid*>::iterator oit=mlstExplosion.begin();
-	while(oit!=mlstExplosion.end())
-	{
-		(*oit++)->draw(p);
-	}
-}
-
-
-void ogolPencil::update(int iTimerEllapsedms)
-{
-	list<ogolVectoroid*>::iterator oit=mlstExplosion.begin();
-	while(oit!=mlstExplosion.end())
-	{
-		(*oit++)->update(iTimerEllapsedms);
-	}
 }
 
 // return 0 if bad color

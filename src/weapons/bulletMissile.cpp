@@ -217,16 +217,29 @@ int bulletMissile::update(int iTimeEllapsedms)
 		// Checking only distance between mpos-target is not enough due to fps reasons.
 		// Without that, missiles passes through the target and try after to turn back to the
 		// target, resulting in tons of missiles tracking their targets.
-		// The equation of the line is ax+by+c=0 (in order to handle vertical line)
-		// The distance d=abs(a.x1+b.y1+c)/sqrt(a2+b2) with P(x1,y1)=shoot point
-
+		// But we do this test only when the missile passes over the target !
+		coord p2(mpos);
+		coord t(mpTarget->getShootPoint());
 		mpos.add(mDirection);
-		coord oDistance=mpTarget->getShootPoint();
-		oDistance.substract(getCoord());
-		if (oDistance.norm()<8)
+
+		if (
+				(t.x()>mpos.x() && t.x()<p2.x()) ||
+				(t.x()<mpos.x() && t.x()>p2.x()) ||
+				(t.y()>mpos.y() && t.y()<p2.y()) ||
+				(t.y()<mpos.y() && t.y()>p2.y()))
 		{
-			mpTarget->damage(mpoTower->getDamage());	// FIXME
-			mbJobFinished=true;
+			lineEquation leq;
+			mDirection.buildLineEquation(leq,mpos);
+			float d=leq.distanceTo(t);
+
+			//cout << "dir=" << mDirection << " T=" << mpTarget->getShootPoint() << " pos" << mpos << " ";
+			//cout << leq.a << " " << leq.b << " " << leq.c << " d=" << d << " =? ";
+
+			if (d<8)
+			{
+				mpTarget->damage(mpoTower->getDamage());	// FIXME
+				mbJobFinished=true;
+			}
 		}
 		bRet= mbJobFinished | mpTarget->isDead() | (mpTarget->getVisible()==false);
 	}

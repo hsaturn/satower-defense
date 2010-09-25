@@ -20,6 +20,7 @@ using namespace std;
 #include <missileBase.hpp>
 #include "towerBase.hpp"
 #include "walkerBase.hpp"
+#include <ogolVectoroid.hpp>
 
 extern void InitializePathfinder();
 extern char walkability [17][14];
@@ -316,6 +317,10 @@ void Game::readTheme(const string &sTheme)
 			else if (sItem=="small_font")
 			{
 				poReadText=&mpoFontSmall;
+			}
+			else if (sItem=="fragments_display_time")
+			{
+				giOgolVectoroidTimeMs=oDef.getNextLong(sItem+" ms value");
 			}
 			else if (sItem=="button_font")
 			{

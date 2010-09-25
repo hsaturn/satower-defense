@@ -15,6 +15,7 @@
 #include "ogol.hpp"
 #include "game.hpp"
 #include "walkers.hpp"
+#include "ogolVectoroid.hpp"
 
 extern int getRand(int iMin,int iMax);	// FIXME Beuuuark
 
@@ -295,7 +296,7 @@ void walkerBase::drawNative(const coord &pos, SDL_Surface* dest,const coord& ang
 
 void walkerBase::drawAt(const coord &p, SDL_Surface *dest) const
 {
-	moPencil.drawExplosion(back);
+	// moPencil.drawExplosion(back);
 	if ((mbVisible) && miExplosion<=0)
 	{
 		float fScale;
@@ -321,7 +322,7 @@ void walkerBase::drawAt(const coord &p, SDL_Surface *dest) const
 		{
 			// Used the 1st time, only once to compute explosion particles (vectoroids)
 			moPencil.setExplosion(true);
-			miExplosion=giOgolVectoroidTime;	// drawing explosion
+			miExplosion=giOgolVectoroidTimeMs;	// drawing explosion
 		}
 		mogol.draw(dest,&cray,&oAngle,moPencil);
 		moShootPoint=moPencil.getShootPoint();
@@ -377,8 +378,8 @@ void walkerBase::damage(float fHealth)
 	oSpeed.multiplyBy(oAngle);
 	oSpeed.normalize();
 
-	ogolVectoroid* p=new ogolVectoroid(getShootPoint(),oV1,oSpeed,0xFF000080,getRand(-720,720));
-	moPencil.addExplosion(p);
+	ogolVectoroid::create(getShootPoint(),oV1,oSpeed,0xFF000080,getRand(-720,720));
+	// moPencil.addExplosion(p);
 }
 
 int walkerBase::update(int iTimerEllapsedms)
@@ -389,7 +390,7 @@ int walkerBase::update(int iTimerEllapsedms)
 		if (mfSpeed>mfInitialSpeed)
 			mfSpeed=mfInitialSpeed;
 	}
-	moPencil.update(iTimerEllapsedms);
+	// moPencil.update(iTimerEllapsedms);
 	mlLifeTime+=iTimerEllapsedms;
 	if (miExplosion>0)
 	{

@@ -71,7 +71,7 @@ walkerBase* Waves::update(Uint32 lEllapsed)
 					pGenerated,
 					10,
 					800,
-					10);
+					10);		// FIXME all those should be theme parameters
 			moCurWalker=moitWalkersNames;
 			moitWalkersNames++;
 		}

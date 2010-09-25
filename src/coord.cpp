@@ -53,17 +53,54 @@ Uint32 coord::getTilesCoordY() const
 	return (int)((my-mapTL.y())/tileSizeY+0.5);
 }
 
-
-void coord::normalize()
+void coord::buildLineEquation(lineEquation& oLine,const coord &p)
 {
-	float fNorm=norm();
-	if (fNorm)
+	float &a=oLine.a;
+	float &b=oLine.b;
+	float &c=oLine.c;
+
+	coord mdir(*this);
+	mdir.normalize();
+	if (mdir.x()>-0.001 && mdir.x()<0.001)	// For 'vertical lines', ax+c=0
 	{
-		mx/=fNorm;
-		my/=fNorm;
+		b=0;
+		a=1;
+		c=-p.x();
+	}
+	else
+	{
+		// y=Ax+B
+		// <=> Ax-y+B=0 => a=A b=-1 c=B
+
+		// A=dy/dx => a=dy/dx
+		a=mdir.y()/mdir.x();
+
+		// p belongs to (d)
+		// B=c=y-Ax
+		c=p.y()-(a*p.x());
+		b=-1;
 	}
 }
 
+float coord::invnorm() const
+{
+	float x=mx*mx+my*my;
+	union {
+		float f;
+		int i;
+	} tmp;
+	tmp.f = x;
+	tmp.i = 0x5f3759df - (tmp.i >> 1);
+	float y = tmp.f;
+	return  (y * (1.5f - 0.5f * x * y * y));
+}
+
+void coord::normalize()
+{
+	float fInvNorm=invnorm();
+	mx*=fInvNorm;
+	my*=fInvNorm;
+}
 
 float coord::norm() const
 {

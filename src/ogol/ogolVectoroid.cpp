@@ -9,14 +9,29 @@
 #include <SDL/SDL_gfxPrimitives.h>
 
 #include <cfileparser.hpp>
+#include "ogolVectoroid.hpp"
 #include "ogol.hpp"
 
-int giVectoroids=0;
+int giOgolVectoroidTimeMs=1000;
+
+list<ogolVectoroid*>*	ogolVectoroid::mlstVectoroids=new list<ogolVectoroid*>;
+
+void ogolVectoroid::create(
+		const coord &start,
+		const coord &last,
+		const coord &speed,
+		Uint32 iColor,
+		int iRotationSpeed)
+{
+	ogolVectoroid*	p=new ogolVectoroid(start,last,speed,iColor,iRotationSpeed);
+	if (p)
+		mlstVectoroids->push_back(p);
+}
 
 ogolVectoroid::ogolVectoroid(
-		coord start,
+		const coord &start,
 		coord last,
-		coord speed,
+		const coord &speed,
 		Uint32 iColor,
 		int iRotationSpeed)
 :
@@ -30,13 +45,12 @@ ogolVectoroid::ogolVectoroid(
 	mfLength=last.norm();
 	mfInitialLength=mfLength;
 	mAngle=last.module();
-
 }
 
-void ogolVectoroid::update(int iTimerEllapsedms)
+void ogolVectoroid::_update(int iTimerEllapsedms)
 {
 	miTimeEllapsed+=iTimerEllapsedms;
-	mfLength=mfInitialLength+mfInitialLength*miTimeEllapsed/giOgolVectoroidTime;
+	mfLength=mfInitialLength+mfInitialLength*miTimeEllapsed/giOgolVectoroidTimeMs;
 	float fMul(mfRotationSpeed*iTimerEllapsedms/1000);
 	coord delta(mSpeed);
 	delta.multiplyBy(fMul);
@@ -44,7 +58,7 @@ void ogolVectoroid::update(int iTimerEllapsedms)
 	float fRotate=fMul;
 	mAngle.rotateBy(fRotate);
 	mAngle.normalize();
-	if (miTimeEllapsed<giOgolVectoroidTime-100)
+	if (miTimeEllapsed<giOgolVectoroidTimeMs-100)
 	{
 		int iRed=miColor & 0xFF000000>>24;
 		if (iRed<245)
@@ -53,15 +67,42 @@ void ogolVectoroid::update(int iTimerEllapsedms)
 		}
 		miColor=iRed<<24 | (miColor & 0x00FFFF00);
 	}
-	int iOpacity=255-((miTimeEllapsed<<8)/giOgolVectoroidTime);
+	int iOpacity=255-((miTimeEllapsed<<8)/giOgolVectoroidTimeMs);
 	if (iOpacity<0)
 		iOpacity=0;
 	miColor=(miColor & 0xFFFFFF00)|iOpacity;
 }
 
-void ogolVectoroid::draw(SDL_Surface* p) const
+
+void ogolVectoroid::update(int iTimerEllapsedms)
 {
-	giVectoroids++;
+	list<ogolVectoroid*>::iterator oit=mlstVectoroids->begin();
+	while(oit!=mlstVectoroids->end())
+	{
+		ogolVectoroid* p=*oit;
+		if (p->miTimeEllapsed>giOgolVectoroidTimeMs)
+		{
+			oit=mlstVectoroids->erase(oit);
+			delete p;
+		}
+		else
+		{
+			oit++;
+			p->_update(iTimerEllapsedms);
+		}
+	}
+}
+void ogolVectoroid::draw(SDL_Surface* p)
+{
+	list<ogolVectoroid*>::iterator oit=mlstVectoroids->begin();
+	while(oit!=mlstVectoroids->end())
+	{
+		(*oit++)->_draw(p);
+	}
+}
+
+void ogolVectoroid::_draw(SDL_Surface* p)
+{
 	coord oEnd(mAngle);
 	oEnd.multiplyBy(mfLength);
 	oEnd.add(mStart);

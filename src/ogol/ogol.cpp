@@ -9,8 +9,7 @@
 #include <cfileparser.hpp>
 #include "ogol.hpp"
 #include "../vars.hpp"
-
-int giOgolVectoroidTime=5000;
+#include "ogolVectoroid.hpp"
 
 extern int getRand(int,int);	// BEUARK
 
@@ -417,8 +416,8 @@ void ogolCommand::draw(SDL_Surface* img, coord* poCurrent, coord* poAngle, ogolP
 				oSpeed.normalize();
 				oSpeed.multiplyBy(getRand(50,200)/20);
 				int iRotationSpeed(getRand(0,180)-getRand(0,180));
-				ogolVectoroid* p=new ogolVectoroid(*poCurrent,*poDistance,oSpeed,oPencil.getColor(),iRotationSpeed);
-				oPencil.addExplosion(p);
+				ogolVectoroid::create(*poCurrent,*poDistance,oSpeed,oPencil.getColor(),iRotationSpeed);
+				//oPencil.addExplosion(p);
 			}
 			else if (!oPencil.isRecordingPoly())
 			{

@@ -85,9 +85,9 @@ public:
 
 	void setExplosion(bool bExplosion) { mbExplosion=bExplosion; }
 
-	void addExplosion(ogolVectoroid* p){ mlstExplosion.push_front(p);};
+	// void addExplosion(ogolVectoroid* p){ mlstExplosion.push_front(p);};
 
-	void drawExplosion(SDL_Surface*);
+	// void drawExplosion(SDL_Surface*);
 
 	void update(int iTimerEllapsedms);
 UNUSED CODE SEE OGOL.HPP

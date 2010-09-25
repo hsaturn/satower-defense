@@ -25,6 +25,7 @@
 #include "coldLaser.hpp"
 #include "button.hpp"
 #include "waves.hpp"
+#include <ogolVectoroid.hpp>
 
 #include "gui/CWindow.hpp"
 
@@ -520,6 +521,9 @@ int main(int argc, char **argv)
 				p->drawMissiles(back);
 			}
 
+			ogolVectoroid::update(lEllapsed);
+			ogolVectoroid::draw(back);
+
 			gpGame->drawMap(back,false);
 			SDL_BlitSurface(back, &coords, screen, &coords);
 			SDL_UpdateRects(screen,1,&coords);
@@ -534,11 +538,25 @@ int main(int argc, char **argv)
 			lFrames++;
 			if (glLastFrameTick>lTimerFps)
 			{
-				cout << "FPS : " << lFrames << ", vectoroids count: " << giVectoroids << " walkers " << lstWalkers.size() << endl ;
+				static int iLessThan30=0;
+				cout << "FPS : " << lFrames << ", vectoroids count: " << ogolVectoroid::count() << " walkers " << lstWalkers.size() << endl ;
 				lTimerFps=glLastFrameTick+1000;
+
+				if (lFrames<30)
+				{
+					iLessThan30++;
+					if ((iLessThan30>10) && (giOgolVectoroidTimeMs>500))
+					{
+						iLessThan30=0;
+						giOgolVectoroidTimeMs=(int)(giOgolVectoroidTimeMs*0.9);
+						cout <<  "Reducing fragment display time (fps < 30) to " << giOgolVectoroidTimeMs << endl;
+					}
+				}
+				else
+					iLessThan30=0;
+
 				lFrames=0;
 			}
-			giVectoroids=0;
 			bRedrawAll=false;
 		}
 	}

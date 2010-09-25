@@ -95,15 +95,24 @@ coordi coord_base<T>::getTilesCoord() const
 	return t;
 }
 
+float InvSqrt(float x)
+{
+	union {
+		float f;
+		int i;
+	} tmp;
+	tmp.f = x;
+	tmp.i = 0x5f3759df - (tmp.i >> 1);
+	float y = tmp.f;
+	return  (y * (1.5f - 0.5f * x * y * y));
+}
+
 template <class T>
 void coord_base<T>::normalize()
 {
-	T fNorm=norm();
-	if (fNorm)
-	{
-		mx/=fNorm;
-		my/=fNorm;
-	}
+	T fInvNorm=InvSqrt(mx*mx+my*my);
+	mx*=fNorm;
+	my*=fNorm;
 }
 
 template <class T>

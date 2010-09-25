@@ -48,33 +48,6 @@ typedef enum
 
 class ogolPolygon;
 
-extern int giOgolVectoroidTime;
-extern int giVectoroids;
-class ogolVectoroid
-{
-public:
-	ogolVectoroid(
-			coord start,			// start of line
-			coord last,				// end of line
-			coord speed,			// Speed
-			Uint32 iColor,			// ...
-			int iRotationSpeed);	// rotation speed (degrees/sec)
-
-	void update(int iTimerEllapsedms);
-	void draw(SDL_Surface*) const;
-
-private:
-	coord	mStart;
-	coord	mSpeed;
-	coord	mAngle;
-	Uint32	miColor;
-	float	mfRotationSpeed;	// rad/sec
-	float	mfLength;
-	float	mfInitialLength;
-	int		miTimeEllapsed;
-
-};
-
 class ogolPencil
 {
 public:
@@ -142,8 +115,9 @@ public:
 	void setExplosion(bool bExplosion) { mbExplosion=bExplosion; }
 	bool getExplosion() const { return mbExplosion; }
 
-	void addExplosion(ogolVectoroid* p){ mlstExplosion.push_front(p);};
-
+/*	void addExplosion(ogolVectoroid* p);
+	{ mlstExplosion.push_front(p);};
+*/
 	void drawExplosion(SDL_Surface*);
 
 	void update(int iTimerEllapsedms);
@@ -156,7 +130,7 @@ private:
 	bool mbMirror;
 	coord moShootPoint;
 	bool mbExplosion;
-	list<ogolVectoroid*>	mlstExplosion;
+//	list<ogolVectoroid*>	mlstExplosion;
 	Uint32 miOpacityFactor;
 };
 
