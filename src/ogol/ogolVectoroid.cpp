@@ -42,9 +42,9 @@ ogolVectoroid::ogolVectoroid(
 	miTimeEllapsed(0)
 {
 	last.substract(start);
-	mfLength=last.norm();
+	mfLength=last.module();
 	mfInitialLength=mfLength;
-	mAngle=last.module();
+	mAngle=last.argument();
 }
 
 void ogolVectoroid::_update(int iTimerEllapsedms)

@@ -361,7 +361,7 @@ void ogolCommand::draw(SDL_Surface* img, coord* poCurrent, coord* poAngle, ogolP
 			coord oFirstPos(*poCurrent);
 			coord oFirstAngle(*poAngle);
 
-			float fFirstAngle=poAngle->module();
+			float fFirstAngle=poAngle->argument();
 
 			poOgol->draw(img,poCurrent,poAngle,oPencil);
 			// Compute the angle of the drawn picture
@@ -369,8 +369,8 @@ void ogolCommand::draw(SDL_Surface* img, coord* poCurrent, coord* poAngle, ogolP
 			// the mirrored part.
 			coord oLastPos(*poCurrent);
 			oLastPos.substract(oFirstPos);
-			float fCurAngle=oLastPos.module();
-			fCurAngle=poAngle->module();
+			float fCurAngle=oLastPos.argument();
+			fCurAngle=poAngle->argument();
 			float fAngle=(fCurAngle-fFirstAngle)*2+PI;
 			//coord oAngle(fAngle-6.28318530718/4-fCurAngle);
 			coord oAngle(fAngle);

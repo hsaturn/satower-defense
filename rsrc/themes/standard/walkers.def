@@ -63,7 +63,6 @@ walker A1_four_arrows
 {
 	boss
 	max_count 2
-	boss_music "Jasen Tamiia - Playing with Danger (Ubercharged Remix).ogg"
 	short_desc "Four arrows"
 	scale 45
 	rotation_speed 180
@@ -606,6 +605,7 @@ walker Shuriken
 
 walker Treffle
 {
+	short_desc "Trident"
 	scale 30
 	rotation_speed 0
 	follow_direction

@@ -55,7 +55,7 @@ void ogolPolygon::addPoint(Sint16 x,Sint16 y, Uint32 iColor)
 	}
 	if (mx==0)
 	{
-		miArraySpace=64;
+		miArraySpace=16;
 		mx=(Sint16*)malloc(miArraySpace*sizeof(Sint16));
 		my=(Sint16*)malloc(miArraySpace*sizeof(Sint16));
 		mc=(Uint32*)malloc(miArraySpace*sizeof(Uint32));
