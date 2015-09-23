@@ -48,7 +48,7 @@ tower 3
 	comments		"Slow targets"
 	name			"Cold laser tower"
 	cost_money		30
-	damage			20
+	damage			50
 	damage_increase	1450
 	range			80
 	range_increase	1042
