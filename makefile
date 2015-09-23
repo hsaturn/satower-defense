@@ -1,31 +1,43 @@
-SRC_ALL = main.cpp $(wildcard src/*.cpp)
+# DEPENDENCIES
+# sdl sdl_image  sdl_mixer sdl_ttf
 
-SDL_OPTS=`pkg-config --cflags sdl`
+SRC_ALL = \
+    $(wildcard src/*.cpp)\
+    $(wildcard slib/src/*.cpp)\
+    $(wildcard src/weapons/*.cpp)\
+    $(wildcard src/ogol/*.cpp)\
+    $(wildcard src/tiled/*.cpp)\
+    $(wildcard src/xml/*.cpp)\
 
-OPTS=$(DEBUG_OPTS) -Wall -std=c++0x -O3 $(SDL_OPTS)
+SDL = SDL_mixer SDL_image SDL_ttf SDL_gfx
+OBJS = $(SRC_ALL:.cpp=.o)
+
+SDL_OPTS=`pkg-config --cflags $(SDL)`
+
+OPTS=$(DEBUG_OPTS) -Wall -std=c++0x -O3 $(SDL_OPTS) -Islib/include -Isrc/ogol -Isrc/weapons -Isrc/xml
 
 PATHS=$(sort $(dir $(SRC_ALL)))
 BUILD_DIR=build
-NOTDIR_FILES=$(notdir $(SRC_LIB) )
+NOTDIR_FILES=$(notdir $(SRC_ALL) )
 OBJS_SERVER=$(addprefix $(BUILD_DIR)/,$(NOTDIR_FILES:.cpp=.o))
 DEPENDS_ALL=$(OBJS_SERVER:.o=.d)
-LINKER=g++
+LINKER=g++ `pkg-config --libs-only-l $(SDL)`
 CXX=g++ $(OPTS) -I./include $(INCLUDE)
 LIBS=-lsdl
 DEBUG_OPTS=
-BIN_TARGETS=main
-
+BIN_TARGETS=satower
 
 .PHONY: all
 all: $(BUILD_DIR) $(BIN_TARGETS)
 	echo "SRC_ALL=$(SRC_ALL)"
 
-.PHONY: $(BIN_TARGETS)
-$(BIN_TARGETS):
-	@echo "  Building Tool : $@"
-	@$(MAKE) -s $(BUILD_DIR)/$@.o
-	@$(CXX) $(BUILD_DIR)/$@.o -lphantom -o $@
+vars:
+	@echo "LINKER      = $(LINKER)"
+	@echo "OBKS_SERVER = $(OBJS_SERVER)"
 
+satower: build/main.o $(OBJS_SERVER)
+	@echo "  Building : $@ ($(OBJS_SERVER))"
+	$(LINKER) $(OBJS_SERVER) -o $@
 
 .PHONY: phantom.conf
 phantom.conf: $(PHANTOM_CONF)
@@ -55,7 +67,6 @@ $(BUILD_DIR)/%.o:%.hpp
 
 $(BUILD_DIR)/%.o:%.cpp
 	@echo $@: $< > $(patsubst %.o,%.d,$@)
-	@echo "OPTS=$(OPTS)"
 	@echo "    Compiling $<" 
 	
 	@$(CXX) -c $< -o $@
