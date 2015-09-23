@@ -12,7 +12,7 @@ coldLaser::coldLaser()
 :
 	missileBase()
 {
-	mfSpeed=1;	// fake speed
+	mfSpeed=100;	// speed of laser change period (ms))
 	miChangeLaser=0;
 	mfMaxSlow=50;
 	miMaxTimems=999999999;
@@ -27,25 +27,23 @@ void coldLaser::drawAt(const coord &p, SDL_Surface* dest) const
 {
 	coord	pDest(mpTarget->getShootPoint());
 	pDest.substract(mpos);
-	float fLength=pDest.norm();
+	float fLength=pDest.module();
 	if (fLength==0)
 		return;	// 0 length is not computable.
 	if (miChangeLaser<0)
 	{
-		miChangeLaser=1;	// FIXME parameter
-		mfAlpha=pDest.module();
-		mfAlpha0=getRand(20,60)*PI/180;
-		mfAlpha1=getRand(60,150)*PI/180;
+		miChangeLaser=mfSpeed;	// FIXME parameter
+		mfAlpha0=getRand(15,45)*PI/180;
+		mfAlpha1=getRand(15,45)*PI/180;
 		mfRatioLength0=getRand(40,60)/100.0;
 		mfRatioLength1=getRand(40,60)/100.0;
-		// Do until last segment is at least 10% of the distance to the target
-		// (else artifacts effect occurs)
 		if (getRand(-10,10)>0)
 			mbLrl=true;
 	}
 
-	float fAngleL0=mfAlpha;
-	float fAngleL1=mfAlpha;
+	float fAlpha(pDest.argument());
+	float fAngleL0=fAlpha;
+	float fAngleL1=fAlpha;
 	if (mbLrl)
 	{
 		fAngleL0-=mfAlpha0;
@@ -79,7 +77,7 @@ int coldLaser::update(int iTimeEllapsedms)
 	{
 		miChangeLaser-=iTimeEllapsedms;
 		// FIXME miMaxSlow to be implemented
-		float fSlow=(float)100*(float)iTimeEllapsedms/1000.0;
+		float fSlow=(float)miDamage*(float)iTimeEllapsedms/1000.0;
 
 		bRet=mpTarget->damageSpeed(fSlow,mfMaxSlow);
 	}

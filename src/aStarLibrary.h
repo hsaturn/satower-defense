@@ -5,6 +5,9 @@
    ;Last updated 06/16/03 -- Visual C++ version
    */
 
+#include <iostream>
+using namespace std;
+
 //Declare constants
 const int maxMapWidth=50;
 const int maxMapHeight=50;
@@ -588,6 +591,11 @@ int ReadPathX(int pathfinderID,int pathLocation)
 		//Otherwise you will want to adjust this.
 		x = tileSizeX*x + .5*tileSizeX;
 
+	}
+	else
+	{
+		cerr << "SHOULD NOT ARRIVE HERE " << __FILE__ << ':' << __LINE__ << endl;
+		x=0;	// avoid compilation warning
 	}
 	return x;
 }

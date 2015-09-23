@@ -28,7 +28,6 @@
 
  private:
  	mutable int	  miChangeLaser;	// Nr of ms left before changing laser appearance.
- 	mutable float mfAlpha;
  	mutable float mfAlpha0;
  	mutable float mfAlpha1;
  	mutable float mfRatioLength0;
