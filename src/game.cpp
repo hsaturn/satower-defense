@@ -313,37 +313,23 @@ void Game::readTheme(const string &sTheme)
 				cout << "OGOL SCALING : " << mfOgolScale << endl;
 			}
 			else if (sItem=="map_file")
-			{
 				sMapFile=oDef.getNextString("Map filename");
-			}
 			else if (sItem=="small_font")
-			{
 				poReadText=&mpoFontSmall;
-			}
 			else if (sItem=="fragments_display_time")
-			{
 				giOgolVectoroidTimeMs=oDef.getNextLong(sItem+" ms value");
-			}
 			else if (sItem=="button_font")
-			{
 				poReadText=&mpoFontButton;
-			}
 			else if (sItem=="hudge_font")
-			{
 				poReadText=&mpoFontHudge;
-			}
 			else if (sItem=="current_next")
-			{
 				moCurrentNext.readDef(&oDef);
-			}
 			else if (sItem=="bank")
 				mCoordBank.readDef(&oDef);
 			else if (sItem=="interest")
 				mCoordInterest.readDef(&oDef);
 			else if (sItem=="live_lost_sound")
-			{
 				mpoLiveLostSound=new Sound(&oDef);
-			}
 			else if (sItem=="score")
 				mCoordScore.readDef(&oDef);
 			else if (sItem=="lives")
@@ -358,11 +344,7 @@ void Game::readTheme(const string &sTheme)
 				readTowersAreas(&oDef);
 			else if (sItem=="button")
 			{
-				Button*	poButton=new Button;
-
-				poButton->readDef(&oDef);
-
-				mlstButtons.push_front(poButton);
+				mlstButtons.push_front(new Button(&oDef));
 			}
 			else
 				oDef.throw_("game","Unknown game item ["+sItem+"]");
