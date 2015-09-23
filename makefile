@@ -8,13 +8,14 @@ SRC_ALL = \
     $(wildcard src/ogol/*.cpp)\
     $(wildcard src/tiled/*.cpp)\
     $(wildcard src/xml/*.cpp)\
+    $(wildcard src/gui/*.cpp)\
 
 SDL = SDL_mixer SDL_image SDL_ttf SDL_gfx
 OBJS = $(SRC_ALL:.cpp=.o)
 
 SDL_OPTS=`pkg-config --cflags $(SDL)`
 
-OPTS=$(DEBUG_OPTS) -Wall -std=c++0x -O3 $(SDL_OPTS) -Islib/include -Isrc/ogol -Isrc/weapons -Isrc/xml
+OPTS=-pedantic $(DEBUG_OPTS) -Wall -std=c++0x -O3 $(SDL_OPTS) -Islib/include -Isrc/ogol -Isrc/weapons -Isrc/xml
 
 PATHS=$(sort $(dir $(SRC_ALL)))
 BUILD_DIR=build
