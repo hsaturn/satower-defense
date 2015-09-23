@@ -328,7 +328,7 @@ void walkerBase::drawAt(const coord &p, SDL_Surface *dest) const
 		moShootPoint=moPencil.getShootPoint();
 		moPencil.setExplosion(false);
 	}
-};
+}
 
 bool walkerBase::damageSpeed(float fSlowPercent, float fMinPercent)
 {
