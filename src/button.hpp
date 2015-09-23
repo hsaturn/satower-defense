@@ -19,10 +19,9 @@ using namespace std;
 class Button
 {
 public:
-	Button();
+	Button(CFileParser*);
 	virtual ~Button();
 
-	void readDef(CFileParser*);
 	const string getAction() const { return msAction; }
 	const rect getRect() const { return mRect; }
 

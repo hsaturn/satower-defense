@@ -8,26 +8,8 @@
 #include <SDL/SDL_gfxPrimitives.h>
 
 list<Button*>	Button::mlstButtons;
-Button::Button()
-{
-	mlstButtons.push_front(this);
-}
 
-Button::~Button()
-{
-	list<Button*>::iterator oit=mlstButtons.begin();
-	while (oit!=mlstButtons.end())
-	{
-		if (this==*oit)
-		{
-			mlstButtons.erase(oit);
-			break;
-		}
-		oit++;
-	}
-}
-
-void Button::readDef(CFileParser* poDef)
+Button::Button(CFileParser* poDef)
 {
 	try
 	{
@@ -49,11 +31,26 @@ void Button::readDef(CFileParser* poDef)
 			else
 				poDef->throw_("button","Unknown button data ["+s+"]");
 		}
+		mlstButtons.push_front(this);
 	}
 	catch (CSException *p)
 	{
 		cerr << "Error while reading button " << msName << endl;
 		cerr << p->getCompleteError() << endl;
+	}
+}
+
+Button::~Button()
+{
+	list<Button*>::iterator oit=mlstButtons.begin();
+	while (oit!=mlstButtons.end())
+	{
+		if (this==*oit)
+		{
+			mlstButtons.erase(oit);
+			break;
+		}
+		oit++;
 	}
 }
 
