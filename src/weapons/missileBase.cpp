@@ -35,7 +35,7 @@ missileBase::missileBase()
 	mpoSound		(0)
 {
 	setAlpha	(0x80);
-};
+}
 
 void missileBase::fillBaseClone(missileBase* pClone)
 {
