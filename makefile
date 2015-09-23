@@ -22,7 +22,7 @@ BUILD_DIR=build
 NOTDIR_FILES=$(notdir $(SRC_ALL) )
 OBJS_SERVER=$(addprefix $(BUILD_DIR)/,$(NOTDIR_FILES:.cpp=.o))
 DEPENDS_ALL=$(OBJS_SERVER:.o=.d)
-LINKER=g++ `pkg-config --libs-only-l $(SDL)`
+LINKER=g++ 
 CXX=g++ $(OPTS) -I./include $(INCLUDE)
 LIBS=-lsdl
 DEBUG_OPTS=
@@ -38,7 +38,7 @@ vars:
 
 satower: build/main.o $(OBJS_SERVER)
 	@echo "  Building : $@ ($(OBJS_SERVER))"
-	$(LINKER) $(OBJS_SERVER) -o $@
+	$(LINKER) $(OBJS_SERVER) `pkg-config --libs-only-l $(SDL)` -o $@
 
 .PHONY: phantom.conf
 phantom.conf: $(PHANTOM_CONF)
