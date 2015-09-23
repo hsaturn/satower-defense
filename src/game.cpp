@@ -64,7 +64,7 @@ mpoLiveLostSound(0),
 miGameState(STATE_PLAY) // FIXME
 {
 	Sound::init(); // FIXME
-	if (msRsrcPath == "") msRsrcPath = "../rsrc/";
+	if (msRsrcPath == "") msRsrcPath = "rsrc/";
 }
 
 Game::~Game()
