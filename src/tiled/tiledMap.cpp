@@ -17,8 +17,6 @@ tiledMap::tiledMap(const string& sXmlFileName)
 	bool bHasBuildWalkTileSet=false;
 	try
 	{
-		string line;
-		string s;
 		CFileParser	xmlFile(sXmlFileName,true,true);
 		SimpleXml	xml(&xmlFile);
 
