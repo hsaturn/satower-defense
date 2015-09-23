@@ -1,7 +1,7 @@
 /*
  * tileset.hpp
  *
- *  Created on: 7 août 2010
+ *  Created on: 7 aoÃ»t 2010
  *      Author: saturn
  */
 
