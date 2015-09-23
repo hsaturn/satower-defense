@@ -391,7 +391,7 @@ int walkerBase::update(int iTimerEllapsedms)
 		if (mlReleaseSlow<0)
 		{
 			mlReleaseSlow=0;
-			mfSpeed=mfSpeed+10*mfInitialSpeed*(float)iTimerEllapsedms/100.0;
+			mfSpeed=mfSpeed+mfInitialSpeed*(float)iTimerEllapsedms/1000.0;
 			if (mfSpeed>mfInitialSpeed)
 				mfSpeed=mfInitialSpeed;
 		}

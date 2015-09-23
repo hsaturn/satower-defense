@@ -48,21 +48,13 @@ float towerBase::getRange() const
 
 towerBase* towerBase::buildTowerAs(coord pos)
 {
-	towerBase* theTower=0;
-	map<int,towerBase*>::iterator oit=mapTowers.begin();
-	while (oit!=mapTowers.end())
+	for(auto oit: mapTowers)
 	{
-		towerBase* p=oit->second;
-		if (p->getCenterCoord().xyMaxDistanceTo(pos)<=12.5)
-		{
-			theTower=new towerBase(*p);
-			//theTower->setCoord(pos);
-			break;
-		}
-		oit++;
+		if (oit.second->getCenterCoord().xyMaxDistanceTo(pos)<=12.5)
+			return new towerBase(*(oit.second));
 	}
 
-	return theTower;
+	return 0;
 }
 
 

@@ -41,6 +41,7 @@ class walkerBase : public mapelt
 		virtual int update(int iTimeEllapsedms);
 
 		float getHealth() const { return mfHealth; };
+		float getInitialHealth() const { return mfInitialHealth; }
 		void setHealth(float fHealth) { mfHealth=fHealth; mfInitialHealth=fHealth; }
 		int	getRefCount() const { return miRefCount; };
 		bool getVisible() const { return mbVisible; }
@@ -70,6 +71,7 @@ class walkerBase : public mapelt
 		coord getDestination() const { return mDest; }
 		coord getDestinationPixels() const { return coordToPixels(mDest); }
 		float getSpeed() const;
+		float getMaxSpeed() const { return mfInitialSpeed; }
 
 		long getBank() const { return mlBank; }
 		const coord getDirection() const { return mDirection; }
