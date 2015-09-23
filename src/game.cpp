@@ -40,6 +40,8 @@ bool fileExists(const string sFileName)
 	return false;
 }
 
+string Game::msRsrcPath;
+
 Game::Game()
 :
 	mlScore(0),
@@ -62,7 +64,7 @@ Game::Game()
 	miGameState(STATE_PLAY) // FIXME
 {
 	Sound::init();	// FIXME
-	msRsrcPath="../rsrc/";
+	if (msRsrcPath == "") msRsrcPath="../rsrc/";
 }
 
 Game::~Game()

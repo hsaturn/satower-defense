@@ -45,6 +45,8 @@ class Game
 public:
 	Game();
 	~Game();
+	
+	static void setRsrcPath(const string& sPath) { msRsrcPath=sPath; }
 
 	/**
 	 * Find a resource file.
@@ -137,7 +139,7 @@ public:
 	bool togglePause();
 
 private:
-	string msRsrcPath;
+	static string msRsrcPath;
 	Mix_Music*	mpoMusic;
 	int			miMusicChannel;
 	string	msLevel;
