@@ -22,7 +22,7 @@ public:
 
 	CWindow(){};
 
-	virtual ~CWindow(){};
+	virtual ~CWindow(){}
 
 	virtual void draw(SDL_Surface*);
 
@@ -36,6 +36,7 @@ public:
 	 * is decorated (scrollbars, border, title bar etc).
 	 */
 	virtual SDL_Rect getOuterRegion() const { return moRegion; }
+	
 private:
 	SDL_Rect	moRegion;
 	Uint32		miBgColor;
@@ -54,16 +55,16 @@ public:
 
 	virtual ~CWindowDecorator(){ if (mpoWindow) delete mpoWindow; }
 
-	virtual SDL_Rect getInnerRegion() const { return mpoWindow->getInnerRegion(); };
+	virtual SDL_Rect getInnerRegion() const { return mpoWindow->getInnerRegion(); }
 
 	/*
 	 * The decorator should to implement getOuterRegion to
 	 * consider its decorations.
 	 */
-	virtual SDL_Rect getOuterRegion() const { return mpoWindow->getOuterRegion(); };
+	virtual SDL_Rect getOuterRegion() const { return mpoWindow->getOuterRegion(); }
 
 	virtual void draw(SDL_Surface*) const=0;
-
+	
 protected:
 	CWindow*	mpoWindow;
 };
