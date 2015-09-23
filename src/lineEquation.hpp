@@ -19,6 +19,7 @@ public:
 
 	/**
 	 * Find the intersection with another line
+	 * @FIXME If not null, coord* must be deleted (memory leak)
 	 * @return null if no intersection or the coord of the intersection
 	 */
 	coord* intersection(const lineEquation &) const;

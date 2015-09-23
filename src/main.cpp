@@ -49,8 +49,6 @@ extern void InitializePathfinder();
 extern int tileSizeX;
 extern int tileSizeY;
 
-int towers_x=583;
-int towers_y=39;
 Uint32 glLastFrameTick;
 
 SDL_Event event;
@@ -612,7 +610,7 @@ void initMap(const string sImage)
 
 	vi = SDL_GetVideoInfo();
 	if(vi && vi->wm_available) /* Change les titres */
-		SDL_WM_SetCaption("Demo SDL", "Icone SDL");
+		SDL_WM_SetCaption("Saturn Tower Defense", "Icone SDL");
 
 	/* Initialise un mode vid�o id�al pour cette image */
 	screen = SDL_SetVideoMode(img->w, img->h,
