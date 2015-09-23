@@ -1,0 +1,5 @@
+// vim: ts=80
+Unable to initialize TTF subsystem.	Impossible d'initialiser SDL/TTF
+Unable to load font	Impossible de charger la fonte
+GAME OVER	GAME OVER
+GAME PAUSED	PAUSE
