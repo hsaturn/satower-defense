@@ -5,7 +5,7 @@
 #include <map>
 #include <list>
 #include <SDL/SDL_gfxPrimitives.h>
-#include <csexception.hpp>
+#include <csexception.hpp>	// Part of SaturnLib library
 #include "coord.hpp"
 #include "mapelt.hpp"
 #include "walkerBase.hpp"
@@ -259,7 +259,7 @@ int main(int argc, char **argv)
 
 			while (SDL_PollEvent(&event))
 			{
-				bool bCreateWalker=false;
+//				bool bCreateWalker=false;
 
 				switch(event.type)
 				{
@@ -382,7 +382,7 @@ int main(int argc, char **argv)
 							}
 							if (mouseTower==0)
 							{
-								bCreateWalker=true;
+//								bCreateWalker=true;
 							}
 							else
 							{
