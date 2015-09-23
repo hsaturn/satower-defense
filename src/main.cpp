@@ -105,6 +105,15 @@ int main(int argc, char **argv)
 		{
 			sTheme=argv[++iArg];
 		}
+		else if (sArg=="-rsrc")
+		{
+			Game::setRsrcPath(argv[++iArg]);
+		}
+		else if (sArg=="-h")
+		{
+			cout << "usage: satower [-theme theme][-rsrc rsrc_path]" << endl;
+			exit(1);
+		}		
 		iArg++;
 	}
 
