@@ -43,7 +43,6 @@ typedef enum
 	OGOL_OPACITY,
 	OGOL_SETVAR,
 	OGOL_SHOOTPOINT
-
 } EOGOL_CMD;
 
 class ogolPolygon;

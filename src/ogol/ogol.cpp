@@ -64,8 +64,8 @@ void ogol::readDef(CFileParser* poDef)
 			poDef->getExpectedChar("}");
 			break;
 		}
-		EOGOL_CMD	iCmd;
-		long		iParam1;	// Fixme, was an int, maybe stored in int place (but must be a long)
+		EOGOL_CMD	iCmd=OGOL_PD;
+		long		iParam1=0;	// Fixme, was an int, maybe stored in int place (but must be a long)
 		long		iParam2=0;
 		bool		bVar=poDef->peekChar(true)=='$';
 		string		sGetValue1="";
@@ -212,7 +212,7 @@ void ogol::readDef(CFileParser* poDef)
 		if (bAddOgolBlock)
 		{
 			ogol* poBlock=new ogol(this);
-			iParam1=(int)poBlock;
+			iParam1=(long)poBlock;
 			poBlock->readDef(poDef);
 		}
 		ogolCommand* poCmd=new ogolCommand(iCmd,iParam1,iParam2);
@@ -247,7 +247,7 @@ void ogolCommand::draw(SDL_Surface* img, coord* poCurrent, coord* poAngle, ogolP
 	coord oCurrent(*poCurrent);
 	coord* poDistance=0;		// !=0 if we must move
 	bool bLine=false;
-	bool bAngle=false;
+//	bool bAngle=false;
 	int iAngle=0;
 
 	switch(miOgolCommand)
@@ -284,12 +284,12 @@ void ogolCommand::draw(SDL_Surface* img, coord* poCurrent, coord* poAngle, ogolP
 
 	case OGOL_TR:
 		iAngle=getValue(miParam1);
-		bAngle=true;
+//		bAngle=true;
 		break;
 
 	case OGOL_TL:
 		iAngle=-getValue(miParam1);
-		bAngle=true;
+//		bAngle=true;
 		break;
 
 	case OGOL_ANGLE:
