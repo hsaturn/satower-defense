@@ -39,14 +39,14 @@ missileBase::missileBase()
 
 void missileBase::fillBaseClone(missileBase* pClone)
 {
-	pClone->mpos=mpos;
-	pClone->mfSpeed=mfSpeed;
-	pClone->mpTarget=mpTarget;
-	pClone->miColor=miColor;
-	pClone->miDamage=miDamage;
-	pClone->mpogol=mpogol;
-	pClone->mpoSound=mpoSound;
-	pClone->miMaxTimems=miMaxTimems;
+	pClone->mpos		= mpos;
+	pClone->mfSpeed		= mfSpeed;
+	pClone->mpTarget	= mpTarget;
+	pClone->miColor		= miColor;
+	pClone->miDamage	= miDamage;
+	pClone->mpogol		= mpogol;
+	pClone->mpoSound	= mpoSound;
+	pClone->miMaxTimems	= miMaxTimems;
 }
 
 void missileBase::sound()
