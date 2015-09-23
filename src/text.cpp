@@ -53,25 +53,25 @@ text::text(CFileParser* poDef)
 	}
 }
 
-text::text(const string &sName,int iSize, SDL_Color oColor)
+text::text(const string &sFont,int iSize, SDL_Color oColor)
 	:
 	mColor(oColor)
 {
-	load(sName,iSize);
+	load(sFont,iSize);
 }
 
-bool text::load(const string &sName,int iSize)
+bool text::load(const string &sFont,int iSize)
 {
 	bool bRet=true;
 	text::init();
 
-	string sFontFile=gpGame->findRsrcFile("fonts/"+sName+".TTF");
+	string sFontFile=gpGame->findRsrcFile("fonts/"+sFont+".TTF");
 	mpFont=TTF_OpenFont(sFontFile.c_str(),iSize);
 	if (mpFont==0)
 	{
 
 		bRet=false;
-		cerr << _T("Unable to load font") << ' ' << sName << ',' << sFontFile << endl;
+		cerr << _T("Unable to load font") << ' ' << sFont << ',' << sFontFile << endl;
 	}
 	return bRet;
 }
