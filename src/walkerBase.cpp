@@ -41,7 +41,7 @@ walkerBase::walkerBase()
 	miExplosion(0),
 	mlBank(0),
 	mlLifeTime(0),
-	mfSlowRelease(0.006),	// 10 secs max to get 100% speed
+	mlReleaseSlow(0),
 	mbAutoRotateSpin(true),
 	msShortDesc("short_desc missing"),
 	miMaxCount(9999),
@@ -75,7 +75,7 @@ walkerBase::walkerBase(const walkerBase* p)
 		mlBank			(p->mlBank),
 		mlLifeTime		(0),
 		mfInitialSpeed	(p->mfSpeed),
-		mfSlowRelease	(p->mfSlowRelease),
+		mlReleaseSlow	(p->mlReleaseSlow),
 		msShortDesc		(p->msShortDesc),
 		miMaxCount		(p->miMaxCount),
 		mbBoss			(p->mbBoss),
@@ -333,6 +333,7 @@ void walkerBase::drawAt(const coord &p, SDL_Surface *dest) const
 bool walkerBase::damageSpeed(float fSlowPercent, float fMinPercent)
 {
 	bool bRet=false;
+	mlReleaseSlow = 5000;	// 5 sec to re-accelerate
 	if (mfInitialSpeed>0)
 	{
 		float fLowestSpeed=mfInitialSpeed*fMinPercent/100.0;
@@ -386,9 +387,14 @@ int walkerBase::update(int iTimerEllapsedms)
 {
 	if (mfSpeed<mfInitialSpeed)
 	{
-		mfSpeed=mfSpeed+mfSlowRelease*mfInitialSpeed*(float)iTimerEllapsedms/1000;
-		if (mfSpeed>mfInitialSpeed)
-			mfSpeed=mfInitialSpeed;
+		mlReleaseSlow-=iTimerEllapsedms;
+		if (mlReleaseSlow<0)
+		{
+			mlReleaseSlow=0;
+			mfSpeed=mfSpeed+10*mfInitialSpeed*(float)iTimerEllapsedms/100.0;
+			if (mfSpeed>mfInitialSpeed)
+				mfSpeed=mfInitialSpeed;
+		}
 	}
 	// moPencil.update(iTimerEllapsedms);
 	mlLifeTime+=iTimerEllapsedms;
@@ -458,9 +464,10 @@ int walkerBase::update(int iTimerEllapsedms)
 			if (gpGame->state()==STATE_PLAY)
 			{
 				gpGame->burnLives(miKills);
+				miExplosion=-1;
 				miKills=0;
 			}
-			mbVisible=false;
+			// mbVisible=false;
 		}
 	}
 	return false;

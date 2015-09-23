@@ -109,7 +109,7 @@ class walkerBase : public mapelt
 		long	mlBank;		// Amout of money earned when destroyed
 		long	mlLifeTime;
 		float	mfInitialSpeed;
-		float	mfSlowRelease;	// Delta to raise Slow coeff to 1 (per second)
+		int		mlReleaseSlow;	// ms left to allow re-acceleration
 		float	mfSpin;			// 1 if W->E -1 if W<-E when not mbFollowDir
 		bool	mbAutoRotateSpin;
 		mutable coord	moShootPoint;
