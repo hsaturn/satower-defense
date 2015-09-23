@@ -23,6 +23,8 @@ class mapelt
 
 		const coord	getCoord() const { return mpos; };
 		virtual void	setCoord(const coord pos)	{ mpos=pos; };
+		
+		virtual ~mapelt(){}
 
 	protected:
 		coord mpos;

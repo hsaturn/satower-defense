@@ -33,6 +33,7 @@ class towerBase : public mapelt
 	public:
 
 		static towerBase*	buildTowerAs(coord p);
+		virtual ~towerBase() {}
 		/**
 		 * @return range of the tower (pixels)
 		 */
