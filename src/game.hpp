@@ -16,6 +16,7 @@
 #include "tiled/tiledMap.hpp"
 #include "CurrentNextArea.hpp"
 #include "walkers.hpp"
+#include "walkerBase.hpp"
 
 class Sound;
 class Button;
@@ -89,6 +90,8 @@ public:
 	int getTileSizeY() const { return tileSizeY; }
 
 	void displayTowerInfos(SDL_Surface*,const towerBase*) const;
+	
+	void displayWalkerInfos(SDL_Surface*, const walkerBase*) const;
 	/**
 	 * Draw the map on the surface
 	 * @param SDL_Surface* where to draw the map

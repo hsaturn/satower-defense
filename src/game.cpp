@@ -25,6 +25,14 @@ using namespace std;
 extern void InitializePathfinder();
 extern char walkability [17][14];
 
+template <class T>
+static inline std::string toString (const T& t)
+{
+	std::stringstream ss;
+	ss << t;
+	return ss.str();
+}
+
 
 using namespace std;
 #include "stdio.h"
@@ -182,16 +190,16 @@ void Game::displayTowerInfos(SDL_Surface* dest, const towerBase* pTower) const
 	font->drawSolid(dest, mTowerNameArea.getTopLeft(), pTower->getName());
 	coord pos(mTowersInfoArea.getTopLeft());
 	coord row(0, font->size());
-	font->drawSolid(dest, pos, _T("Cost  : ") + to_string(pTower->getCostMoney()) + " $");
+	font->drawSolid(dest, pos, _T("Cost  : ") + toString(pTower->getCostMoney()) + " $");
 	pos.add(row);
-	font->drawSolid(dest, pos, _T("Range : ") + to_string(pTower->getRange()) + " m");
+	font->drawSolid(dest, pos, _T("Range : ") + toString(pTower->getRange()) + " m");
 	pos.add(row);
 	font->drawSolid(dest, pos, _T("Damage: ") + pTower->getDamageInfo());
 	pos.add(row);
 	//font->drawSolid(dest,pos,pTower->getUpgradeInfo());
 
 	pos = mTowerCellArea.getTopLeft();
-	font->drawSolid(dest, pos, _T("Sell : ") + to_string(pTower->getSellValue()) + " $");
+	font->drawSolid(dest, pos, _T("Sell : ") + toString(pTower->getSellValue()) + " $");
 	/*int iThick=4;
 	coord p(pTower->getCenterCoord());
 	float iOffset=24/2-iThick;	// FIXME fixed data
@@ -209,33 +217,80 @@ void Game::displayTowerInfos(SDL_Surface* dest, const towerBase* pTower) const
 	aacircleRGBA(dest, pTower->getCenterCoord().x(), pTower->getCenterCoord().y(), pTower->getRange(), 255, 255, 255, 60);
 }
 
+	
+void Game::displayWalkerInfos(SDL_Surface* dest, const walkerBase* pWalker) const
+{
+	text* font;
+	if (mpTowerFont == 0)
+		font = mpoFontSmall;
+	else
+		font = mpTowerFont;
+	font->drawSolid(dest, mTowerNameArea.getTopLeft(), pWalker->getShortDesc());
+	coord pos(mTowersInfoArea.getTopLeft());
+	coord row(0, font->size());
+
+	const int width=80;
+	const int height=5;
+	pWalker->drawAt(coord(pos.x()+20,pos.y()+20), dest);
+	SDL_Rect rect;
+	rect.x = pos.x()+50;
+	rect.y = pos.y()+20;
+	rect.w = (float)width*pWalker->getHealth()/pWalker->getInitialHealth();
+	rect.h = height;
+	SDL_FillRect(dest, &rect, 0x00aa00ff);
+	rectangleColor(dest, rect.x, rect.y, rect.x+width,rect.y+height, 0x00FF00ff);
+	pos.add(coord(0,50));
+	
+	
+	if (pWalker->isBoss())
+	{
+		font->drawSolid(dest, pos, _T("Boss"));
+		pos.add(row);
+	}
+		
+	font->drawSolid(dest, pos, _T("HP   : ") + toString((int)pWalker->getHealth()));
+	pos.add(row);
+	font->drawSolid(dest, pos, _T("Speed: ") + toString((int)pWalker->getMaxSpeed())+" m/s");
+	pos.add(row);
+	if (pWalker->getSpeed()!=pWalker->getMaxSpeed())
+	{
+		font->drawSolid(dest, pos, _T("Current Speed: ") + toString((int)pWalker->getSpeed())+" m/s");
+		pos.add(row);
+	}
+
+	//font->drawSolid(dest,pos,pTower->getUpgradeInfo());
+	filledCircleRGBA(dest, pWalker->getCoord().x(), pWalker->getCoord().y(), 20, 128, 128, 255, 30);
+	aacircleRGBA(dest, pWalker->getCoord().x(), pWalker->getCoord().y(), 20, 255, 255, 255, 60);
+	
+}
+
 void Game::printScores(SDL_Surface* p)
 {
 	if (mlLives)
 	{
 		mpoFontSmall->drawSolid(
 								back, mCoordLives,
-								to_string(mlLives));
+								toString(mlLives));
 
 		mpoFontSmall->drawSolid(
 								back, mCoordScore,
-								to_string(mlScore));
+								toString(mlScore));
 
 		mpoFontSmall->drawSolid(
 								back, mCoordBank,
-								to_string(mlBank) + " $");
+								toString(mlBank) + " $");
 
 		mpoFontSmall->drawSolid(
 								back, mCoordInterest,
-								to_string(mlInterest));
+								toString(mlInterest));
 
 		mpoFontSmall->drawSolid(
 								back, mCoordLevel,
-								to_string(mlLevel));
+								toString(mlLevel));
 
 		mpoFontSmall->drawSolid(
 								back, mCoordBonus,
-								to_string(mlBonus));
+								toString(mlBonus));
 	}
 	else
 		mpoFontSmall->drawSolid(

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <map>
 #include <list>
+#include <string>
 #include <SDL/SDL_gfxPrimitives.h>
 #include <csexception.hpp>	// Part of SaturnLib library
 #include "coord.hpp"
@@ -94,6 +95,8 @@ int main(int argc, char **argv)
 	Button*		pButtonOver=0;
 	Button*		pButtonClicked=0;
 	string		sTheme="default";
+	bool		bFullScreen(false);
+	coord		mouseCoord;
 
 	int iArg=1;
 	while(iArg<argc)
@@ -109,9 +112,18 @@ int main(int argc, char **argv)
 		}
 		else if (sArg=="-h")
 		{
-			cout << "usage: satower [-theme theme][-rsrc rsrc_path]" << endl;
+			cout << "usage: satower [options]" << endl;
+			cout << endl;
+			cout << "  options are:" << endl;
+			cout << endl;
+			cout << "    -h        This help screen" << endl;
+			cout << "    -fs       Full Screen" << endl;
+			cout << "    -rsrc dir Change of resources folder (default ./rsrc/)" << endl;
+			cout << "    -theme    Change themes (rsrc/themes/?)" << endl;
 			exit(1);
-		}		
+		}
+		else if (sArg == "-fs")
+			bFullScreen = true;
 		iArg++;
 	}
 
@@ -128,6 +140,7 @@ int main(int argc, char **argv)
 
 		atexit(SDL_Quit); /* Pour sortir proprement */
 		SDL_WM_SetCaption("Tower Defense",NULL);
+		
 		coord posText(100,100);
 		towerBase*			mouseTower=0;
 		list<towerBase*>	lstTowers;
@@ -169,6 +182,9 @@ int main(int argc, char **argv)
 		//towerBase::readTowers(gpGame->findRsrcFile("towers.def"));
 
 		initMap(gpGame->findRsrcFile("vierge.png")); // FIXME game responsability
+		
+		if (bFullScreen)
+			SDL_WM_ToggleFullScreen(screen);
 
 		bool bMouseTowerValid=false;	// Position de la souris valide pour poser une tour.
 		glLastFrameTick=SDL_GetTicks();
@@ -263,6 +279,7 @@ int main(int argc, char **argv)
 			}
 
 			pButtonClicked=0;
+			
 
 			while (SDL_PollEvent(&event))
 			{
@@ -387,19 +404,12 @@ int main(int argc, char **argv)
 							{
 								pDisplayTower=searchTower(lstTowers,coord(event));
 							}
-							if (mouseTower==0)
-							{
-//								bCreateWalker=true;
-							}
-							else
-							{
-								coord p(event);
-								if (p.inSquare(mapTL,mapBR))
-								{
-									p.snapToGrid();
-								}
+							coord p(event);
+							if (p.inSquare(mapTL,mapBR))
+								p.snapToGrid();
+							mouseCoord = p;
+							if (mouseTower!=0)
 								mouseTower->setCoord(p);
-							}
 						}
 						break;
 				}
@@ -483,8 +493,24 @@ int main(int argc, char **argv)
 			{
 				gpGame->displayTowerInfos(back,mouseTower);
 			}
+			else
+			{
+				walkerBase* walker=0;
+				float max=99999;
+				for(auto it: lstWalkers)
+				{
+					coord shoot (it->getShootPoint());
+					auto dist = shoot.distanceTo(mouseCoord);
+					if (dist<max)
+					{
+						max = dist;
+						walker = it;
+					}
+				}
+				if (walker)		
+					gpGame->displayWalkerInfos(back, walker);
+			}
 
-			gpGame->printScores(back);
 			gpGame->displayCurrentNextWalkers(lEllapsed,back,poWaves->getCurWalker());
 
 			// Gestion du curseur en forme de tour.
@@ -513,6 +539,7 @@ int main(int argc, char **argv)
 				walkerBase* p=*oitWalkers++;
 				p->draw(back);
 			}
+			gpGame->printScores(back);
 
 			if (lstWalkers.size()<=1)
 			{

@@ -64,8 +64,8 @@ class coord
 		void normalize();
 
 		float invnorm() const;	// Fast Inverse norm (1/norm) faster than norm()
-		float norm	()	const;
-		float module()	const;
+		float module	()	const;	// (aka length()
+		float argument()	const;	// aka angle
 
 		// Find the equation of a line with p included in the line and this as a vector
 		// equation is returned into oLine

@@ -102,13 +102,13 @@ void coord::normalize()
 	my*=fInvNorm;
 }
 
-float coord::norm() const
+float coord::module() const
 {
 	return sqrt(mx*mx+my*my);
 }
 
 
-float coord::module() const
+float coord::argument() const
 {
 	return atan2(my,mx);
 }
