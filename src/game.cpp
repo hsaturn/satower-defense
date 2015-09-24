@@ -237,7 +237,7 @@ void Game::displayWalkerInfos(SDL_Surface* dest, const walkerBase* pWalker) cons
 	rect.y = pos.y()+20;
 	rect.w = (float)width*pWalker->getHealth()/pWalker->getInitialHealth();
 	rect.h = height;
-	SDL_FillRect(dest, &rect, 0x00aa00ff);
+	SDL_FillRect(dest, &rect,SDL_MapRGBA(dest->format, 0,128,0,0.4));
 	rectangleColor(dest, rect.x, rect.y, rect.x+width,rect.y+height, 0x00FF00ff);
 	pos.add(coord(0,50));
 	

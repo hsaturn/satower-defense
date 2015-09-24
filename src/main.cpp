@@ -97,7 +97,8 @@ int main(int argc, char **argv)
 	string		sTheme="default";
 	bool		bFullScreen(false);
 	coord		mouseCoord;
-
+	walkerBase*	walkerInfo=0;
+	
 	int iArg=1;
 	while(iArg<argc)
 	{
@@ -280,6 +281,8 @@ int main(int argc, char **argv)
 
 			pButtonClicked=0;
 			
+			bool click=false;
+			
 
 			while (SDL_PollEvent(&event))
 			{
@@ -288,6 +291,10 @@ int main(int argc, char **argv)
 				switch(event.type)
 				{
 					case SDL_MOUSEBUTTONDOWN:
+						if ( event.button.button==SDL_BUTTON_RIGHT)
+							walkerInfo = 0;
+						else
+							click=true;
 						pButtonClicked=Button::searchButton(coord(event));
 
 						if (gpGame->state()==STATE_PLAY)
@@ -506,9 +513,17 @@ int main(int argc, char **argv)
 						max = dist;
 						walker = it;
 					}
+					if (walkerInfo==it)
+					{
+						walker = it;
+						break;
+					}
 				}
-				if (walker)		
+				if (walker)
+				{
 					gpGame->displayWalkerInfos(back, walker);
+					if (click) walkerInfo = walker;
+				}
 			}
 
 			gpGame->displayCurrentNextWalkers(lEllapsed,back,poWaves->getCurWalker());
