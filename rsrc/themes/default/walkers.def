@@ -662,12 +662,12 @@ walker crystal
 			
 			mirror
 			{
-			tr 10
-			fw 60
+				tr 10
+				fw 60
 				color red
 				color yellow
-			tl 45
-			fw 20 
+				tl 45
+				fw 20 
 	
 				tl 55
 			}
