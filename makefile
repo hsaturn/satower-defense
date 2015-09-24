@@ -26,24 +26,25 @@ LINKER=g++
 CXX=g++ $(OPTS) -I./include $(INCLUDE)
 LIBS=-lsdl
 DEBUG_OPTS=
-BIN_TARGETS=satower satower-static
+STATIC_BIN:=satower-static-$(shell uname -m)
+BIN_TARGETS=satower $(STATIC_BIN)
 
 .PHONY: all
 all: $(BUILD_DIR) $(BIN_TARGETS)
-	echo "SRC_ALL=$(SRC_ALL)"
 
 vars:
 	@echo "LINKER      = $(LINKER)"
 	@echo "OBKS_SERVER = $(OBJS_SERVER)"
+	@echo "STATIC-BIN  = $(STATIC_BIN)"
 
 satower: build/main.o $(OBJS_SERVER)
 	@echo "Linking binary : $@"
 	$(LINKER) $(OBJS_SERVER) `pkg-config --libs-only-l $(SDL)` -o $@
 	
-satower-static: satower
+$(STATIC_BIN): satower
 	@echo "Linking static binary : $@"
 	$(LINKER)  -static-libgcc -static $(OBJS_SERVER) -lSDL -lpthread -lSDL_image -lSDL_gfx  -lSDL_ttf  -lfreetype -lbz2 -lz  -lSDL_mixer -ldl -lSDL -o $@
-	
+
 .PHONY: phantom.conf
 phantom.conf: $(PHANTOM_CONF)
 
