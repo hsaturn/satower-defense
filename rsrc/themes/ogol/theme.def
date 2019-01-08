@@ -1,4 +1,5 @@
 	game_image 'editor.png'
+	extender 'ogol_editor'
 	
 	small_font  'WHITRABT' 12 red
 	hudge_font 'SPACE_AGE' 70 gold	
@@ -59,12 +60,12 @@
 		area (198,20)-(246,68)
 	}
 	
-	ogol_editor ogol
+	editor ogol
 	{
 		area (12,84)-(173,532)
 	}
 
-	ogol_canvas display
+	canvas display
 	{
 		area (190,84)-(739,533)
 	}

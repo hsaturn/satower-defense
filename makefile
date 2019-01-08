@@ -9,13 +9,14 @@ SRC_ALL = \
     $(wildcard src/tiled/*.cpp)\
     $(wildcard src/xml/*.cpp)\
     $(wildcard src/gui/*.cpp)\
+	 $(wildcard src/ogol_editor/*.cpp)
 
 SDL = SDL_mixer SDL_image SDL_ttf SDL_gfx
 OBJS = $(SRC_ALL:.cpp=.o)
 
 SDL_OPTS=`pkg-config --cflags $(SDL)`
 
-OPTS=-pedantic $(DEBUG_OPTS) -Wall -std=c++0x -O3 $(SDL_OPTS) -Islib/include -Isrc/ogol -Isrc/weapons -Isrc/xml
+OPTS=-pedantic $(DEBUG_OPTS) -Wall -std=c++17 -g  $(SDL_OPTS) -Islib/include -Isrc/ogol -Isrc/weapons -Isrc/xml -Isrc/ogol_editor -Isrc -Isrc/gui
 
 PATHS=$(sort $(dir $(SRC_ALL)))
 BUILD_DIR=build
@@ -43,7 +44,7 @@ satower: build/main.o $(OBJS_SERVER)
 	
 $(STATIC_BIN): satower
 	@echo "Linking static binary : $@"
-	$(LINKER)  -static-libgcc -static $(OBJS_SERVER) -lSDL -lpthread -lSDL_image -lSDL_gfx  -lSDL_ttf  -lfreetype -lbz2 -lz  -lSDL_mixer -ldl -lSDL -o $@
+	# $(LINKER)  -static-libgcc -static $(OBJS_SERVER) -lSDL -lpthread -lSDL_image -lSDL_gfx  -lSDL_ttf  -lfreetype -lbz2 -lz  -lSDL_mixer -ldl -lSDL -o $@
 
 .PHONY: phantom.conf
 phantom.conf: $(PHANTOM_CONF)

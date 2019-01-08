@@ -69,7 +69,7 @@ public:
 
 	GameExtension* createExtension(string sExtender);
 
-	bool readThemeExtension(string &sItem);
+	bool readThemeExtension(string &sItem, CFileParser *oDef);
 	bool handleAction(string sAction);
 
 	/**

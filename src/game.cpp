@@ -362,13 +362,17 @@ void Game::readTheme(const string &sTheme)
 				msFileNameImage = oDef.getNextString("image filename");
 			else if (sItem == "extender")
 			{
+				string sExtender = oDef.getNextString("extender name");
 				if (mpGameExtension == nullptr)
 				{
-					string sExtender = oDef.getNextString("extender name");
 					mpGameExtension = createExtension(sExtender);
 					if (mpGameExtension == nullptr)
 					{
 						oDef.throw_("game", "Unknown extension [" + sExtender + "]");
+					}
+					else
+					{
+						cout << "Extension " << sExtender << " loaded." << endl;
 					}
 				}
 				else
@@ -424,7 +428,7 @@ void Game::readTheme(const string &sTheme)
 			{
 				mlstButtons.push_front(new Button(&oDef));
 			}
-			else if (!readThemeExtension(sItem))
+			else if (!readThemeExtension(sItem, &oDef))
 				oDef.throw_("game", "Unknown game item [" + sItem + "]");
 
 			if (poReadText)
@@ -562,7 +566,11 @@ GameExtension* Game::createExtension(string sExtender)
 	return nullptr;
 }
 
-bool Game::readThemeExtension(string& sItem)
+bool Game::readThemeExtension(string& sItem, CFileParser *oDef)
 {
+	if (mpGameExtension)
+	{
+		return mpGameExtension->readTheme(sItem, oDef);
+	}
 	return false;
 }

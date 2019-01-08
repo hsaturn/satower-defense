@@ -92,8 +92,8 @@ int main(int argc, char **argv)
 	bool		bRedrawAll=true;
 	towerBase*	pDisplayTower=0;
 	towerBase*	pSelectedTower=0;
-	Button*		pButtonOver=0;
-	Button*		pButtonClicked=0;
+	Widget*		pWidgetOver=0;
+	Widget*		pWidgetClicked=0;
 	string		sTheme="default";
 	bool		bFullScreen(false);
 	coord		mouseCoord;
@@ -103,11 +103,7 @@ int main(int argc, char **argv)
 	while(iArg<argc)
 	{
 		string sArg(argv[iArg]);
-		if (sArg=="-theme")
-		{
-			sTheme=argv[++iArg];
-		}
-		else if (sArg=="-rsrc")
+		if (sArg=="-rsrc")
 		{
 			Game::setRsrcPath(argv[++iArg]);
 		}
@@ -120,11 +116,13 @@ int main(int argc, char **argv)
 			cout << "    -h        This help screen" << endl;
 			cout << "    -fs       Full Screen" << endl;
 			cout << "    -rsrc dir Change of resources folder (default ./rsrc/)" << endl;
-			cout << "    -theme    Change themes (rsrc/themes/?)" << endl;
+			cout << "    theme_folder    Change themes (rsrc/themes/?)" << endl;
 			exit(1);
 		}
 		else if (sArg == "-fs")
 			bFullScreen = true;
+		else
+			sTheme=sArg;
 		iArg++;
 	}
 
@@ -280,11 +278,11 @@ int main(int argc, char **argv)
 				delete pNewBorderedWindow;
 			}
 
-			pButtonClicked=0;
 			
 			bool click=false;
 			
 
+			pWidgetClicked=0;
 			while (SDL_PollEvent(&event))
 			{
 //				bool bCreateWalker=false;
@@ -296,7 +294,7 @@ int main(int argc, char **argv)
 							walkerInfo = 0;
 						else
 							click=true;
-						pButtonClicked=Button::searchButton(coord(event));
+						pWidgetClicked=Widget::search(coord(event));
 
 						if (gpGame->state()==STATE_PLAY)
 						{
@@ -404,7 +402,7 @@ int main(int argc, char **argv)
 						break;
 
 					case SDL_MOUSEMOTION:
-						pButtonOver=Button::searchButton(coord(event));
+						pWidgetOver=Widget::search(coord(event));
 						if (gpGame->state()==STATE_PLAY)
 						{
 							pDisplayTower=towerBase::buildTowerAs(coord(event));
@@ -423,50 +421,59 @@ int main(int argc, char **argv)
 				}
 			}
 
-			if (pButtonClicked)
+			if (pWidgetClicked)
 			{
-				string sAction=pButtonClicked->getAction();
-				if (sAction=="sell_tower")
+				auto pButtonClicked = dynamic_cast<Button*>(pWidgetClicked);
+				if (pButtonClicked)
 				{
-					cout << "sell tower 1" << endl;
-					if (pSelectedTower)
+					string sAction=pButtonClicked->getAction();
+					cout << "Button click " << sAction << endl;
+					if (sAction=="sell_tower")
 					{
-						cout << "sell tower 2" << endl;
-						list<towerBase*>::iterator oit=lstTowers.begin();
-						while(oit!=lstTowers.end())
+						cout << "sell tower 1" << endl;
+						if (pSelectedTower)
 						{
-							towerBase* p=*oit;
-							if (p==pSelectedTower)
+							cout << "sell tower 2" << endl;
+							list<towerBase*>::iterator oit=lstTowers.begin();
+							while(oit!=lstTowers.end())
 							{
-								coord pos=pSelectedTower->getCoord();
-								cout << "Selling tower" << endl;
-								setBuildable(pos.getTilesCoordX(),pos.getTilesCoordY());
-								gpGame->mlBank+=pSelectedTower->getSellValue();
-								lstTowers.erase(oit);
-								delete pSelectedTower;
-								pSelectedTower=0;
-								bRedrawAll=true;
-								break;
+								towerBase* p=*oit;
+								if (p==pSelectedTower)
+								{
+									coord pos=pSelectedTower->getCoord();
+									cout << "Selling tower" << endl;
+									setBuildable(pos.getTilesCoordX(),pos.getTilesCoordY());
+									gpGame->mlBank+=pSelectedTower->getSellValue();
+									lstTowers.erase(oit);
+									delete pSelectedTower;
+									pSelectedTower=0;
+									bRedrawAll=true;
+									break;
+								}
+								oit++;
 							}
-							oit++;
 						}
 					}
-				}
-				else if (sAction=="pause")
-				{
-					gpGame->togglePause();
-				}
-				else if (sAction=="next_wave")
-				{
+					else if (sAction=="pause")
+					{
+						gpGame->togglePause();
+					}
+					else if (sAction=="next_wave")
+					{
 
-					poWaves->nextWave();
+						poWaves->nextWave();
+					}
+					else if (gpGame->handleAction(sAction))
+					{
+					}
+					else
+					{
+						cerr << "Unknown button action: [" << sAction << "]" << endl;
+					}
 				}
-				else if (gpGame->handleAction(sAction))
+				else // other widget clicked
 				{
-				}
-				else
-				{
-					cerr << "Unknown button action: [" << sAction << "]" << endl;
+					cout << "TODO other widget clicked" << endl;
 				}
 			}
 
@@ -488,9 +495,9 @@ int main(int argc, char **argv)
 			// Prepare draw area (back)
 			SDL_BlitSurface(inter, &coords, back, &coords);
 
-			if (pButtonOver)
+			if (pWidgetOver)
 			{
-				pButtonOver->highlight(back);
+				pWidgetOver->highlight(back);
 			}
 			if (pSelectedTower)
 			{

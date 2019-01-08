@@ -7,13 +7,11 @@
 #include "button.hpp"
 #include <SDL/SDL_gfxPrimitives.h>
 
-list<Button*>	Button::mlstButtons;
 
-Button::Button(CFileParser* poDef)
+Button::Button(CFileParser* poDef) : Widget(poDef)
 {
 	try
 	{
-		msName=poDef->getNextIdentifier("button name");
 		poDef->getExpectedChar("{");
 		while(poDef->good())
 		{
@@ -31,39 +29,12 @@ Button::Button(CFileParser* poDef)
 			else
 				poDef->throw_("button","Unknown button data ["+s+"]");
 		}
-		mlstButtons.push_front(this);
 	}
 	catch (CSException *p)
 	{
 		cerr << "Error while reading button " << msName << endl;
 		cerr << p->getCompleteError() << endl;
 	}
-}
-
-Button::~Button()
-{
-	list<Button*>::iterator oit=mlstButtons.begin();
-	while (oit!=mlstButtons.end())
-	{
-		if (this==*oit)
-		{
-			mlstButtons.erase(oit);
-			break;
-		}
-		oit++;
-	}
-}
-
-Button* Button::searchButton(coord c)
-{
-	list<Button*>::const_iterator oit=mlstButtons.begin();
-	while(oit!=mlstButtons.end())
-	{
-		Button* p=*oit++;
-		if (p->isInside(c))
-			return p;
-	}
-	return 0;
 }
 
 void Button::highlight(SDL_Surface* dest) const
