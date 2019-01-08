@@ -1,0 +1,39 @@
+walker cool_cross
+{
+	short_desc	"Cross"
+	scale 40
+	rotation_speed 180
+	health 400
+	speed 40
+	bank 19
+
+	ogol
+	{
+		$size=20
+		
+		$size2=$size
+		add $size2,10
+		filled orange
+		{
+			color black
+			rotates 4
+			{
+				mirror
+				{
+					tr 45
+					fwu 14
+					tl 45
+					fw 50
+					tr 90
+					fw $size
+					tl 90
+					fw $size
+					tl 90
+					fw $size2
+					tr 90
+				}
+			}
+		}
+	}
+}
+

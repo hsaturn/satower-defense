@@ -13,6 +13,7 @@ using namespace std;
 #include "button.hpp"
 #include "translate.hpp"
 #include "tiled/tiledMap.hpp"
+#include <ogol_editor.hpp>
 
 #include <string>
 #include <iostream>
@@ -49,6 +50,7 @@ bool fileExists(const string sFileName)
 }
 
 string Game::msRsrcPath;
+string Game::msThemePath;
 
 Game::Game()
 :
@@ -69,8 +71,10 @@ mfHealthFactor(1.0),
 mfOgolScale(1.0),
 miBossCount(0),
 mpoLiveLostSound(0),
-miGameState(STATE_PLAY) // FIXME
+miGameState(STATE_PLAY), // FIXME
+mpGameExtension(nullptr)
 {
+	msFileNameImage = "vierge.png";
 	Sound::init(); // FIXME
 	if (msRsrcPath == "") msRsrcPath = "rsrc/";
 }
@@ -356,6 +360,22 @@ void Game::readTheme(const string &sTheme)
 			string sItem = oDef.getNextIdentifier("game item");
 			if (sItem == "game_image")
 				msFileNameImage = oDef.getNextString("image filename");
+			else if (sItem == "extender")
+			{
+				if (mpGameExtension == nullptr)
+				{
+					string sExtender = oDef.getNextString("extender name");
+					mpGameExtension = createExtension(sExtender);
+					if (mpGameExtension == nullptr)
+					{
+						oDef.throw_("game", "Unknown extension [" + sExtender + "]");
+					}
+				}
+				else
+				{
+					oDef.throw_("game", "Only one extender allowed");
+				}
+			}
 			else if (sItem == "music")
 			{
 				oDef.getExpectedChar("{");
@@ -404,7 +424,7 @@ void Game::readTheme(const string &sTheme)
 			{
 				mlstButtons.push_front(new Button(&oDef));
 			}
-			else
+			else if (!readThemeExtension(sItem))
 				oDef.throw_("game", "Unknown game item [" + sItem + "]");
 
 			if (poReadText)
@@ -456,7 +476,6 @@ void Game::readTheme(const string &sTheme)
 	{
 		cerr << p->getCompleteError() << endl;
 	}
-
 }
 
 void Game::readTowersAreas(CFileParser* poDef)
@@ -529,4 +548,21 @@ void Game::drawMap(SDL_Surface* img, bool bFull)
 			cerr << "**************************" << endl;
 		}
 	}
+}
+
+bool Game::handleAction(string sAction)
+{
+	return false;
+}
+
+GameExtension* Game::createExtension(string sExtender)
+{
+	if (sExtender=="ogol_editor")
+		return new OgolEditor;
+	return nullptr;
+}
+
+bool Game::readThemeExtension(string& sItem)
+{
+	return false;
 }

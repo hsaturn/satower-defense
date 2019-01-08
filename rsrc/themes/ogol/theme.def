@@ -1,0 +1,70 @@
+	game_image 'editor.png'
+	
+	small_font  'WHITRABT' 12 red
+	hudge_font 'SPACE_AGE' 70 gold	
+
+	bank		(-121,21)
+	interest	(-421,42)
+	score		(-421,62)
+	lives		(-515,21)
+	level		(-515,42)
+	bonus		(-515,62)
+
+	live_lost_sound	"scifi018.wav"
+	
+	ogol_scale 100
+	game_area	(11,96)-(556,537)
+	
+	music
+	{
+		"acit.ogg"
+		"Skiessi-Advance.ogg"
+	}
+	
+	button_font 'WHITRABT' 12 white
+
+	button open
+	{
+		action ogol_open
+		area (23,20)-(71,68)
+	}
+
+	button save
+	{
+		action ogol_save
+		area (82,20)-(130,68)
+	}
+
+	button run
+	{
+		action ogol_run
+		area (198,20)-(246,68)
+	}
+
+	button stop
+	{
+		action ogol_stop
+		area (278,20)-(326,68)
+	}
+
+	button quit
+	{
+		action quit
+		area (668,20)-(716,20)
+	}
+	
+	button pause
+	{
+		action pause
+		area (198,20)-(246,68)
+	}
+	
+	ogol_editor ogol
+	{
+		area (12,84)-(173,532)
+	}
+
+	ogol_canvas display
+	{
+		area (190,84)-(739,533)
+	}

@@ -50,7 +50,12 @@ void CurrentNextArea::displayCurrentNextWalkers(int iTimeEllapsedMs,SDL_Surface*
 	static float fScaleInc(0.01);
 	if (mpFont==0)
 	{
-		cerr << "Warning : CurrentNextArea has no font. Probably missing current_next section in theme definition" << endl;
+		static bool once=true;
+		if (once)
+		{
+			once=false;
+			cerr << "Warning : CurrentNextArea has no font. Probably missing current_next section in theme definition" << endl;
+		}
 	}
 	else
 	{

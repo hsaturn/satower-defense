@@ -20,6 +20,7 @@
 
 class Sound;
 class Button;
+class GameExtension;
 
 extern int tileSizeX;
 extern int tileSizeY;
@@ -53,7 +54,7 @@ public:
 	 * Find a resource file.
 	 * If bTheme, the file is searched inside the current theme.
 	 */
-	string findRsrcFile(const string &sFileName, bool bTheme=false);
+	static string findRsrcFile(const string &sFileName, bool bTheme=false);
 
 	void changeLevel(const string &sLevel);
 
@@ -65,6 +66,11 @@ public:
 	 * sIniFile has no path
 	 */
 	void readTheme(const string& sIniFile);
+
+	GameExtension* createExtension(string sExtender);
+
+	bool readThemeExtension(string &sItem);
+	bool handleAction(string sAction);
 
 	/**
 	 * Read the whole game configuration
@@ -141,6 +147,8 @@ public:
 
 	bool togglePause();
 
+	const string& getImageFile() const { return msFileNameImage; }
+
 private:
 	static string msRsrcPath;
 	Mix_Music*	mpoMusic;
@@ -162,7 +170,7 @@ private:
 	list<Button*>	mlstButtons;
 
 	tiledMap	*mpoMap;
-	string	msThemePath;
+	static string	msThemePath;
 
 	list<coord>		mlstStartTiles;
 	list<coord>	mlstEndTiles;
@@ -178,5 +186,6 @@ private:
 	int		miBossCount;	// Number of alive bosses.
 	Sound*	mpoLiveLostSound;	// Sound when a live is burning
 	EGAME_STATE	miGameState;
+	GameExtension* mpGameExtension;
 };
 #endif /* GAME_HPP_ */

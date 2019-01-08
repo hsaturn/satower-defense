@@ -145,8 +145,9 @@ int main(int argc, char **argv)
 		coord posText(100,100);
 		towerBase*			mouseTower=0;
 		list<towerBase*>	lstTowers;
-		gpGame=new Game();
+		gpGame = new Game();
 		gpGame->readTheme(sTheme);
+		cout << "gpGame=" << gpGame << endl;
 		tileSizeX=gpGame->getTileSizeX();	// FIXME, sizes should exist only at one place
 		tileSizeY=gpGame->getTileSizeY();	// FIXME
 
@@ -182,7 +183,7 @@ int main(int argc, char **argv)
 		//missileBase::readFromDef(gpGame->findRsrcFile("weapons.def"));
 		//towerBase::readTowers(gpGame->findRsrcFile("towers.def"));
 
-		initMap(gpGame->findRsrcFile("vierge.png")); // FIXME game responsability
+		initMap(gpGame->findRsrcFile(gpGame->getImageFile())); // FIXME game responsability
 		
 		if (bFullScreen)
 			SDL_WM_ToggleFullScreen(screen);
@@ -460,6 +461,9 @@ int main(int argc, char **argv)
 
 					poWaves->nextWave();
 				}
+				else if (gpGame->handleAction(sAction))
+				{
+				}
 				else
 				{
 					cerr << "Unknown button action: [" << sAction << "]" << endl;
@@ -635,7 +639,7 @@ void initMap(const string sImage)
 
 	if (img->format->BitsPerPixel!=24)
 	{
-		cerr << sImage << " must have 24 bits per pixel." << endl;
+		cerr << sImage << " must have 24 bits per pixel (8 bits RGB, non interlaced)." << endl;
 	}
 
 	/* Alloue un second buffer de la m�me taille que l'image */
