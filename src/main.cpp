@@ -93,7 +93,7 @@ int main(int argc, char **argv)
 	towerBase*	pSelectedTower=0;
 	Widget*		pWidgetOver=0;
 	Widget*		pWidgetClicked=0;
-	string		sTheme="default";
+	string		sTheme="map_16";
 	bool		bFullScreen(false);
 	coord		mouseCoord;
 	walkerBase*	walkerInfo=0;
