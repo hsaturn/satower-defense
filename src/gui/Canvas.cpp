@@ -18,13 +18,13 @@ Canvas::Canvas(CFileParser *poDef) : Widget(poDef)
 			if (s=="area")
 				mRect.readDef(poDef);
 			else
-				poDef->throw_("editor","Unknown data ["+s+"]");
+				poDef->throw_("canvas","Unknown data ["+s+"]");
 		}
 		// mlstButtons.push_front(this);
 	}
 	catch (CSException *p)
 	{
-		cerr << "Error while reading editor " << msName << endl;
+		cerr << "Error while reading canvas " << msName << endl;
 		cerr << p->getCompleteError() << endl;
 	}
 }

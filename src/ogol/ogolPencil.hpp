@@ -40,7 +40,7 @@ public:
 
 	void down(){ mbDown=true; }
 	void up() { mbDown=false; }
-	static float getScale() const;
+	static float getScale();
 	void setScale(float fScale) { mfScale=fScale;}
 	bool setColor(const string &sColor);
 	bool setColor(Uint32 iColor);

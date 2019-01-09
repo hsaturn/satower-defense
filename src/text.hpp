@@ -26,6 +26,7 @@ public:
 	text(CFileParser*);
 	~text();
 
+	void drawSolid			(SDL_Surface*,const coord &pos, char, Uint32 iColor=0) const;
 	void drawSolid			(SDL_Surface*, coord pos,const string &sText, Uint32 iColor=0) const;
 	void drawSolidShadowed	(SDL_Surface*, coord pos,const string &sText, Uint32 iColor=0) const;
 
@@ -33,6 +34,13 @@ public:
 	static bool mbInit;
 
 	int size() const { return miSize; }
+
+	int height() const { if (mpFont) return TTF_FontHeight(mpFont); }
+
+	int textSize(const char* pText, int &w, int& h)
+	{ return TTF_SizeText(mpFont, pText, &w, &h); }
+
+
 
 	void readDef(CFileParser*);	// NOT IMPLEMENTED
 private:

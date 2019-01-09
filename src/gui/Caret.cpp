@@ -16,10 +16,9 @@ void Caret::render(SDL_Surface* surface, Uint32 ellapsed)
 	mblink += ellapsed;
 	if (mblink > blink)
 	{
-		SDL_FillRect(surface, &caret, 0xFF8000ff); // TODO orange 
+		SDL_FillRect(surface, &caret, color);
 		if (mblink > 2*blink)
 		{
-			SDL_FillRect(surface, &caret, 0); // TODO orange 
 			mblink -= 2*blink;
 		}
 	}

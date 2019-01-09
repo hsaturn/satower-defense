@@ -138,7 +138,6 @@ int main(int argc, char **argv)
 		atexit(SDL_Quit); /* Pour sortir proprement */
 		SDL_WM_SetCaption("Tower Defense",NULL);
 		
-		coord posText(100,100);
 		towerBase*			mouseTower=0;
 		list<towerBase*>	lstTowers;
 		gpGame = new Game();

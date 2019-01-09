@@ -16,8 +16,11 @@ class Caret : public Widget
 
 		const Uint32 blink=500;
 
+		void setColor(Uint32 newColor) { color=newColor; }
+
 	private:
 		SDL_Rect caret;
+		Uint32	color;
 
 		Uint32 mblink;
 };

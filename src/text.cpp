@@ -96,6 +96,33 @@ void text::drawSolidShadowed(SDL_Surface*dest, coord pos, const string &sText, U
 	drawSolid(dest,pos,sText,iColor);
 }
 
+void text::drawSolid(SDL_Surface *dest, const coord& pos, char c, Uint32 iColor) const
+{
+	SDL_Color oColor;
+	if (iColor)
+	{
+		oColor.r=iColor >> 24;
+		oColor.g=(iColor & 0x00FF0000) >>  16;
+		oColor.b=(iColor & 0x0000FF00) >> 8;
+	}
+	else
+		oColor = mColor;
+
+	if (mpFont)
+	{
+		char p[2];
+		p[0]=c;
+		p[1]=0;
+
+		SDL_Surface *text;
+
+		text=TTF_RenderText_Solid(mpFont,p,oColor);
+		SDL_Rect rect(pos);
+		SDL_BlitSurface(text,NULL,dest, &rect);
+		SDL_FreeSurface(text);
+	}
+}
+
 void text::drawSolid(SDL_Surface*dest, coord pos, const string &sText, Uint32 iColor) const
 {
 	SDL_Color oColor;
