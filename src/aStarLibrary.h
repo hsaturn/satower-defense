@@ -90,6 +90,9 @@ bool isBuildable(int x,int y)
 //-----------------------------------------------------------------------------
 void InitializePathfinder (void)
 {
+	static bool initialized=false;
+	if (initialized) return;
+
 	cout << "Reseting path finder" << endl;
 	memset(walkability,0,maxMapWidth*maxMapWidth);
 	for (int x = 0; x < numberPeople+1; x++)
@@ -97,6 +100,7 @@ void InitializePathfinder (void)
 		pathBank [x] = (int*) malloc(4);
 		pathStatus[x] = unused;
 	}
+	initialized=true;
 }
 
 int allocatePathId()

@@ -1,7 +1,9 @@
 #include <Editor.hpp>
 #include <cfileparser.hpp>
 
-Editor::Editor(CFileParser *poDef) : Widget(poDef)
+Editor::Editor(CFileParser *poDef)
+:
+Widget(poDef), caret(8,16)
 {
 	try
 	{
@@ -26,5 +28,16 @@ Editor::Editor(CFileParser *poDef) : Widget(poDef)
 	{
 		cerr << "Error while reading editor " << msName << endl;
 		cerr << p->getCompleteError() << endl;
+	}
+}
+
+void Editor::render(SDL_Surface* surface, Uint32 ellapsed)
+{
+	// TODO compute caret position (not here !)
+	caret.setPos(mRect.x1(), mRect.y1());
+	caret.render(surface, ellapsed);
+	for(const auto [line,str] : lines)
+	{
+
 	}
 }

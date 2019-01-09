@@ -35,11 +35,11 @@ class towerBase;
 
 typedef enum
 {
+	STATE_NONE,
 	STATE_OVER,
 	STATE_PLAY,
 	STATE_PAUSED,
-	STATE_SHOW_HISCORE,
-	STATE_ENTER_HISCORE
+	STATE_NOGAME
 } EGAME_STATE;
 
 class Game
@@ -146,6 +146,8 @@ public:
 	EGAME_STATE state() const { return miGameState; }
 
 	bool togglePause();
+
+	void setState(EGAME_STATE newState);
 
 	const string& getImageFile() const { return msFileNameImage; }
 

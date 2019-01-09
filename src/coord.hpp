@@ -24,7 +24,7 @@ class coord
 {
 	public:
 
-		coord(SDL_Event &);
+		coord(const SDL_Event &);
 		//coord(int);	// Voir constantes COORD_XXX
 		coord() : mx(0),my(0){};
 		coord(float x,float y) : mx(x),my(y){};

@@ -3,6 +3,13 @@
 
 list<Widget*>	Widget::mlstWidgets;
 
+Widget::Widget(string sName)
+:
+msName(sName)
+{
+	mlstWidgets.push_front(this);
+}
+
 Widget::Widget(CFileParser* poDef)
 {
 	try
@@ -39,3 +46,17 @@ Widget* Widget::search(string sName)
 	return nullptr;
 }
 
+Widget* Widget::handleEvent(const SDL_Event& event)
+{
+	Widget* pWidget = Widget::search(coord(event));
+	if (pWidget)
+	{
+	}
+	return pWidget;
+}
+
+void Widget::renderAll(SDL_Surface* surface, Uint32 ellapsed)
+{
+	for(auto widget: mlstWidgets)
+		widget->render(surface, ellapsed);
+}

@@ -114,7 +114,7 @@ float coord::argument() const
 }
 
 
-coord::coord(SDL_Event &e)
+coord::coord(const SDL_Event &e)
 {
 	switch(e.type)
 	{

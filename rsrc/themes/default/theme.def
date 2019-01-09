@@ -1,4 +1,5 @@
 	game_image 'vierge.png'
+	state play
 	
 	small_font  'WHITRABT' 12 red
 	hudge_font 'SPACE_AGE' 70 gold	

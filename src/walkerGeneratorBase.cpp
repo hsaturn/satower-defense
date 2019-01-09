@@ -25,16 +25,16 @@ walkerGeneratorBase::walkerGeneratorBase(
 	moitEnd			(gpGame->beginEnds()),
 	miStart			(1),
 	mbStarted		(false)
+{
+	if (pWalkerToClone->isBoss())
 	{
-		if (pWalkerToClone->isBoss())
-		{
-			miSalveCount=pWalkerToClone->getMaxCount();
-		}
+		miSalveCount=pWalkerToClone->getMaxCount();
 	}
+}
 
 walkerBase* walkerGeneratorBase::update(int iTimeEllapsedMs)
 {
-	walkerBase* p=0;
+	walkerBase* pWalker=0;
 
 	if (miSalveCount>0)
 	{
@@ -52,45 +52,45 @@ walkerBase* walkerGeneratorBase::update(int iTimeEllapsedMs)
 			{
 				miStart++;
 			}
-			p=new walkerBase(mpWalkerToClone);
-			if (p->isBoss())
+			pWalker=new walkerBase(mpWalkerToClone);
+			if (pWalker->isBoss())
 			{
 				gpGame->bossAdd();
-				gpGame->changeMusic(p->getMusic());
+				gpGame->changeMusic(pWalker->getMusic());
 			}
-			p->setHealth(p->getHealth()*gpGame->getHealthFactor());
+			pWalker->setHealth(pWalker->getHealth()*gpGame->getHealthFactor());
 			// Compute a new path
 
 			if (moitStart==gpGame->endStarts())
 				moitStart=gpGame->beginStarts();
 	//		cout << ":" << *moitStart << " --> " << coordToPixel(*moitStart) << endl;
-			p->setCoord(coordToPixel(*moitStart++));
+			pWalker->setCoord(coordToPixel(*moitStart++));
 			int i=gpGame->endsCount();
 			bool bOk=false;
 			while(i>0)
 			{
 				if (moitEnd==gpGame->endEnds())
 					moitEnd=gpGame->beginEnds();
-				p->setDestination(*moitEnd++,"walkerGeneratorBaseSet");
-				if (p->computePath("walkerGeneratorBase"))
+				pWalker->setDestination(*moitEnd++,"walkerGeneratorBaseSet");
+				if (pWalker->computePath("walkerGeneratorBase"))
 				{
 					bOk=true;
 					break;
 				}
 				i--;
 			}
-			p->setVisible(true);
+			pWalker->setVisible(true);
 			if (!bOk)
 			{
-				delete p;
-				p=0;
+				delete pWalker;
+				pWalker=0;
 				cerr << "walkerGeneratorBase : unable to generate walker (bad end point or no path)" << endl;
 			}
 		}
 	}
-	//if (p)
-	//	cout << "walker out ! " << p->getCoord() << " -> " << p->getDestination() << endl;
-	return p;
+	//if (pWalker)
+	//	cout << "walker out ! " << pWalker->getCoord() << " -> " << pWalker->getDestination() << endl;
+	return pWalker;
 }
 
 bool walkerGeneratorBase::sendNow(Uint32 iTimeMs)

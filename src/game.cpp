@@ -71,7 +71,7 @@ mfHealthFactor(1.0),
 mfOgolScale(1.0),
 miBossCount(0),
 mpoLiveLostSound(0),
-miGameState(STATE_PLAY), // FIXME
+miGameState(STATE_NONE),
 mpGameExtension(nullptr)
 {
 	msFileNameImage = "vierge.png";
@@ -87,15 +87,29 @@ Game::~Game()
 bool Game::togglePause()
 {
 	if (miGameState == STATE_PAUSED)
-		miGameState = STATE_PLAY;
+	{
+		setState(STATE_PLAY);
+	}
 	else if (miGameState == STATE_PLAY)
-		miGameState = STATE_PAUSED;
+	{
+		setState(STATE_PAUSED);
+	}
 	else
 	{
 		cerr << "Game::Cannot toggle pause (bad state)" << endl;
 		return false;
 	}
 	return true;
+}
+
+
+EGAME_STATE StrToGameState(string str)
+{
+	if (str=="over") return STATE_OVER;
+	if (str=="play") return STATE_PLAY;
+	if (str=="pause") return STATE_PAUSED;
+	if (str=="nogame") return STATE_NOGAME;
+	return STATE_NOGAME;
 }
 
 string Game::findRsrcFile(const string &sFile, bool bTheme)
@@ -117,7 +131,7 @@ void Game::burnLives(int iKills)
 		mlLives -= iKills;
 	if (mlLives <= 0)
 	{
-		miGameState = STATE_OVER;
+		setState(STATE_OVER);
 		mlLives = 0;
 	}
 	if (mpoLiveLostSound)
@@ -360,6 +374,10 @@ void Game::readTheme(const string &sTheme)
 			string sItem = oDef.getNextIdentifier("game item");
 			if (sItem == "game_image")
 				msFileNameImage = oDef.getNextString("image filename");
+			else if (sItem == "state")
+			{
+				setState(StrToGameState(oDef.getNextIdentifier(sItem)));
+			}
 			else if (sItem == "extender")
 			{
 				string sExtender = oDef.getNextString("extender name");
@@ -573,4 +591,14 @@ bool Game::readThemeExtension(string& sItem, CFileParser *oDef)
 		return mpGameExtension->readTheme(sItem, oDef);
 	}
 	return false;
+}
+
+void Game::setState(EGAME_STATE newState)
+{
+	if (newState != miGameState)
+	{
+		if (newState == STATE_PLAY)
+			InitializePathfinder();
+		miGameState = newState;
+	}
 }

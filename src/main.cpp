@@ -43,7 +43,6 @@ using namespace std;
 void initMap(const string sImage);
 void drawMap();
 
-extern void InitializePathfinder();
 // Fixme, ca n'a rien � faire ici
 // Attention, pour aStar, il faut que tileSizeX==tileSizeY
 
@@ -128,7 +127,6 @@ int main(int argc, char **argv)
 
 	try
 	{
-		InitializePathfinder();
 		/* Initialisation de SDL */
 		if ( SDL_Init(SDL_INIT_EVERYTHING) < 0 )
 		{
@@ -286,6 +284,7 @@ int main(int argc, char **argv)
 			while (SDL_PollEvent(&event))
 			{
 //				bool bCreateWalker=false;
+				Widget* pEventWidget = Widget::handleEvent(event);
 
 				switch(event.type)
 				{
@@ -294,7 +293,7 @@ int main(int argc, char **argv)
 							walkerInfo = 0;
 						else
 							click=true;
-						pWidgetClicked=Widget::search(coord(event));
+						pWidgetClicked=pEventWidget;
 
 						if (gpGame->state()==STATE_PLAY)
 						{
@@ -402,7 +401,7 @@ int main(int argc, char **argv)
 						break;
 
 					case SDL_MOUSEMOTION:
-						pWidgetOver=Widget::search(coord(event));
+						pWidgetOver=pEventWidget;
 						if (gpGame->state()==STATE_PLAY)
 						{
 							pDisplayTower=towerBase::buildTowerAs(coord(event));
@@ -583,6 +582,7 @@ int main(int argc, char **argv)
 
 			ogolVectoroid::update(lEllapsed);
 			ogolVectoroid::draw(back);
+			Widget::renderAll(back, lEllapsed);
 
 			gpGame->drawMap(back,false);
 			SDL_BlitSurface(back, &coords, screen, &coords);
