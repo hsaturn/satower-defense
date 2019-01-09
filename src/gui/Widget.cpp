@@ -48,11 +48,45 @@ Widget* Widget::search(string sName)
 
 Widget* Widget::handleEvent(const SDL_Event& event)
 {
-	Widget* pWidget = Widget::search(coord(event));
-	if (pWidget)
+	coord lastMouse;
+
+	static Widget* lastFocus=nullptr;
+	switch (event.type)
 	{
+		case SDL_MOUSEMOTION:
+		case SDL_MOUSEBUTTONDOWN:
+		case SDL_MOUSEBUTTONUP:
+			{
+				lastMouse=coord(event);
+				Widget* newFocus=search(lastMouse);
+				if (newFocus != lastFocus)
+				{
+					if (lastFocus) lastFocus->onLeaveFocus();
+					if (newFocus) newFocus->onFocus();
+					lastFocus = newFocus;
+				}
+				cout << "mouse event " << lastMouse << '/' << lastFocus << endl;
+				if (lastFocus)
+				{
+					coord relative(lastMouse);
+					relative.substract(lastMouse);
+					lastFocus->onMouse(event, relative);
+				}
+				break;
+			}
+
+		case SDL_KEYDOWN:
+			if (lastFocus)
+			{
+				SDL_KeyboardEvent* key_event=(SDL_KeyboardEvent*)(&event);
+				lastFocus->onKey(*key_event);
+			}
+			break;
+
+		default:
+			cout << "Unhandled event " << event.type << endl;
 	}
-	return pWidget;
+	return lastFocus;
 }
 
 void Widget::renderAll(SDL_Surface* surface, Uint32 ellapsed)

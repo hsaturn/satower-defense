@@ -22,6 +22,11 @@ Widget(poDef), caret(8,16), mpFont(nullptr)
 			{
 				mRect.readDef(poDef);
 			}
+			else if (s=="repeat")
+			{
+				delay=poDef->getNextLong("repeat delay");
+				interval=poDef->getNextLong("repeat interval");
+			}
 			else if (s=="caret")
 			{
 				string sColor=poDef->getNextIdentifier("color");
@@ -50,26 +55,31 @@ Widget(poDef), caret(8,16), mpFont(nullptr)
 	if (mpFont)
 	{
 		mpFont->textSize("W", font_w, font_h);
-		caret.setSize(font_w,font_h);
+		caret.setSize(font_w-1,font_h);
 
 		if (font_w) window_cols = (mRect.x2()-mRect.x1()) / font_w;
 		if (font_h) window_rows = (mRect.y2()-mRect.y1()) / font_h;
 		cout << "Editor rows=" << window_rows << ", cols=" << window_cols << endl;
 	}
 
-	top_row=0;
-	left_col=0;
-	lines[1]="wwaouh";
+	top_row=1;
+	left_col=3;
+	lines[1]="wwaouwww";
+	lines[2]="this is ogol";
+	row=1;
+	col=0;
+	updateCaret();
 }
 
 void Editor::renderText(SDL_Surface* surface, int line, const string& str)
 {
-	if (line < top_row) return;
-	if (line >= top_row + window_rows) return;
+	line -= top_row;
+	if (line < 0) return;
+	if (line > window_rows) return;
 
-	if (str.length()<left_col) return;
+	if ((int)str.length()<left_col) return;
 
-	coord pos(mRect.x1()+line*font_h, mRect.y1());
+	coord pos(mRect.x1(), mRect.y1()+line*font_h);
 
 	const char* p=str.c_str()+left_col;
 	while(*p)
@@ -79,20 +89,183 @@ void Editor::renderText(SDL_Surface* surface, int line, const string& str)
 		pos.setX(pos.x()+font_w);
 		p++;
 	}
-	cout << endl;
 }
 
 void Editor::render(SDL_Surface* surface, Uint32 ellapsed)
 {
 	// TODO compute caret position (not here !)
-	caret.setPos(mRect.x1(), mRect.y1());
 	caret.render(surface, ellapsed);
 
-cout << "----------" << endl;
 	for(const auto [line,str] : lines)
 	{
-		cout << line << ':' << str << endl;
 		renderText(surface, line, str);
 	}
 }
 
+
+void Editor::onKey(const SDL_KeyboardEvent& event)
+{
+	cout << "onkey" << endl;
+	switch (event.keysym.sym)
+	{
+		case SDLK_INSERT:
+			caret.setInsertMode(!caret.isInsertMode());
+			break;
+
+		case SDLK_BACKSPACE:
+			if (col>=1)
+			{
+				col--;
+				lines[row].erase(col,1);
+				break;
+			}
+			if (row<=0)
+				break;
+			row--;
+			col=lines[row].length();
+
+		case SDLK_DELETE:
+			{
+				if (col < lines[row].length())
+				{
+					lines[row].erase(col,1);
+					break;
+				}
+				lines[row]+=lines[row+1];
+
+				int current=row+1;
+				int last_row = lines.rbegin()->first;
+				while(current < last_row)
+				{
+					lines[current]=lines[current+1];
+					current++;
+				}
+				lines.erase(current);
+				break;
+			}
+
+		case SDLK_RIGHT:
+			col++;
+			if (col > (int)lines[row].length())
+				col--;
+			break;
+
+		case SDLK_LEFT:
+			col--;
+			if (col<0) col=0;
+			break;
+
+		case SDLK_UP:
+			row--;
+			if (row<0) row=0;
+			break;
+
+		case SDLK_DOWN:
+			if (lines.size())
+			{
+				row++;
+				if (row > lines.rbegin()->first)
+					row--;
+			}
+			break;
+
+		case SDLK_END:
+			col=lines[row].length();
+			break;
+
+		case SDLK_HOME:
+			col=0;
+			break;
+
+		case SDLK_RETURN:
+			{
+				lines[row].length();
+				if (!caret.isInsertMode())
+				{
+					row++;
+				}
+				else
+				{
+					string pre;
+					int last_row = lines.rbegin()->first;
+					if (caret.isInsertMode())
+					{
+						pre=lines[row].substr(col, string::npos);
+						lines[row].erase(col, string::npos);
+					}
+					row++;
+					int current=row;
+					while(current <= last_row)
+					{
+						std::swap(lines[current],pre);
+						current++;
+					}
+					lines[current]=pre;
+				}
+				col=0;
+			}
+			break;
+
+		default:
+			cout << "keysym" << (int)event.keysym.sym << endl;
+			const char* k=SDL_GetKeyName(event.keysym.sym);
+			char c=0;
+			if (event.keysym.sym==SDLK_SPACE)
+				k=" ";
+			if (k[1]==0)
+				c=k[0];
+			else if (k[0]=='[' && k[2]==']')
+				c=k[1];
+
+			if (c)
+			{
+				if (caret.isInsertMode())
+				{
+					lines[row].insert(col,1,c);
+				}
+				else
+				{
+					lines[row].replace(col,1,1,c);
+				}
+				col++;
+			}
+			else
+				cout << '[' << k << ']' << endl;
+			break;
+	}
+	updateCaret();
+}
+
+void Editor::updateCaret()
+{
+	ensureCaretVisible();
+	int x,y;
+	x=mRect.x1()+font_w*(col-left_col);
+	y=mRect.y1()+font_h*(row-top_row);
+	caret.setPos(x,y);
+	cout << "caret=" << caret << endl;
+}
+
+void Editor::ensureCaretVisible()
+{
+	const int scroll=5;
+	while (col >= left_col+window_cols) left_col += scroll;
+	while (col < left_col) left_col-=scroll;
+	if (left_col<0) left_col=0;
+
+	while (row >= top_row + window_rows) top_row +=scroll;
+	while (row < top_row) top_row -=scroll;
+	if (top_row<0) top_row=0;
+}
+
+void Editor::onFocus()
+{
+	cout << "focus" << endl;
+	SDL_EnableKeyRepeat(delay, interval);
+}
+
+void Editor::onLeaveFocus()
+{
+	cout << "Leave focus" << endl;
+	SDL_EnableKeyRepeat(0,0);
+}

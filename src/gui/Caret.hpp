@@ -18,9 +18,21 @@ class Caret : public Widget
 
 		void setColor(Uint32 newColor) { color=newColor; }
 
-	private:
-		SDL_Rect caret;
-		Uint32	color;
+		void setInsertMode(bool newMode);
+		bool isInsertMode() const { return insert; }
 
+		friend ostream& operator << (ostream& out, const Caret& caret)
+		{
+			out << "(" << caret.caret.x << ',' << caret.caret.y << ')';
+			return out;
+		}
+
+	private:
+		void recalcInsertCaret();
+
+		SDL_Rect caret;	// bloc caret
+		SDL_Rect insert_caret;  // line caret
+		Uint32	color;
+		bool     insert;
 		Uint32 mblink;
 };

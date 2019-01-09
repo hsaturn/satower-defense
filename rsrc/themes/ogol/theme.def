@@ -63,8 +63,9 @@ button pause
 
 editor ogol
 {
+	repeat 500 50
 	caret white
-	font 'ARIAL' 14 white
+	font 'CourierPrime' 12 white
 	area (12,84)-(173,532)
 }
 

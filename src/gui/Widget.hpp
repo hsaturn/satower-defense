@@ -17,7 +17,10 @@ class Widget
 		const rect getRect() const { return mRect; };
 
 		virtual void highlight(SDL_Surface *dest) const {};
-		virtual void onClick(const SDL_Event&) {}
+		virtual void onFocus() {}
+		virtual void onLeaveFocus() {}
+		virtual void onKey(const SDL_KeyboardEvent& event) {};
+		virtual void onMouse(const SDL_Event& event, const coord& relative) {};
 		virtual void render(SDL_Surface*, Uint32 ellapsed) {}
 
 		/**
