@@ -42,6 +42,7 @@ walkerBase::walkerBase()
 	mlBank(0),
 	mlLifeTime(0),
 	mlReleaseSlow(0),
+	mfSpin(0.0),
 	mbAutoRotateSpin(true),
 	msShortDesc("short_desc missing"),
 	miMaxCount(9999),
@@ -76,6 +77,8 @@ walkerBase::walkerBase(const walkerBase* p)
 		mlLifeTime		(0),
 		mfInitialSpeed	(p->mfSpeed),
 		mlReleaseSlow	(p->mlReleaseSlow),
+		mfSpin			(p->mfSpin),
+		mbAutoRotateSpin (p->mbAutoRotateSpin),
 		msShortDesc		(p->msShortDesc),
 		miMaxCount		(p->miMaxCount),
 		mbBoss			(p->mbBoss),
@@ -426,7 +429,6 @@ int walkerBase::update(int iTimerEllapsedms)
 		}
 		if (iTimerEllapsedms)
 		{
-
 			if (mbFollowDir)
 			{
 				float fFilter=1-0.3*(float)iTimerEllapsedms/100.0;
@@ -453,7 +455,7 @@ int walkerBase::update(int iTimerEllapsedms)
 						mfSpin=0;
 				}
 
-				float fAngle=mfSpin*mfRotationSpeed*(float)iTimerEllapsedms/1000.0*mfSpeed/mfInitialSpeed;
+				float fAngle=mfSpin*mfRotationSpeed*((float)iTimerEllapsedms/1000.0)*mfSpeed/mfInitialSpeed;
 				coord oRotate(fAngle);
 				moAngle.rotateBy(fAngle);
 			}

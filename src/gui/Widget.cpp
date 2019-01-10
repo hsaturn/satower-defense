@@ -65,7 +65,6 @@ Widget* Widget::handleEvent(const SDL_Event& event)
 					if (newFocus) newFocus->onFocus();
 					lastFocus = newFocus;
 				}
-				cout << "mouse event " << lastMouse << '/' << lastFocus << endl;
 				if (lastFocus)
 				{
 					coord relative(lastMouse);

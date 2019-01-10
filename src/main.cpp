@@ -26,6 +26,7 @@
 #include "coldLaser.hpp"
 #include "button.hpp"
 #include "waves.hpp"
+#include <unistd.h>
 #include <ogolVectoroid.hpp>
 
 #include "gui/CWindow.hpp"
@@ -190,6 +191,7 @@ int main(int argc, char **argv)
 		bool bRun=true;
 		while(bRun)
 		{
+			usleep(100);
 			if (gpGame->state()==STATE_PAUSED)
 			{
 				lEllapsed=0;
@@ -217,13 +219,14 @@ int main(int argc, char **argv)
 			{
 				bool bDelete=false;
 				walkerBase* p=*oitWalkers;
-				if (	(p->getShootPoint().x()>mapBR.x()+50) ||
-						(p->getShootPoint().y()>mapBR.y()+50) ||
-						(p->getShootPoint().x()<mapTL.x()-50) ||
-						(p->getShootPoint().y()<mapTL.y()-50) ||
+				if (	(p->getShootPoint().x() > mapBR.x()+50) ||
+						(p->getShootPoint().y() > mapBR.y()+50) ||
+						(p->getShootPoint().x() < mapTL.x()-50) ||
+						(p->getShootPoint().y() < mapTL.y()-50) ||
 						(p->getVisible()==false)
 					)
 				{
+					// TODO getRefCount ?
 					if (p->getRefCount()==0)
 					{
 						bDelete=true;
