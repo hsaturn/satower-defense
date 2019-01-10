@@ -60,6 +60,4 @@ void Caret::recalcInsertCaret()
 		insert_caret.w=2;
 	else
 		insert_caret.w=caret.w;
-	cout << "c=" << caret.x << ',' << caret.y << endl;
-	cout << "ic=" << insert_caret.x << ',' << insert_caret.y << endl;
 }

@@ -67,6 +67,7 @@ editor ogol
 	caret white
 	font 'CourierPrime' 12 white
 	area (12,84)-(173,532)
+	autoindent
 }
 
 canvas display

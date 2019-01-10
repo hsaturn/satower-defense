@@ -22,12 +22,14 @@ class Editor : public Widget
 		void onKey(const SDL_KeyboardEvent& event) override;
 		void onFocus() override;
 		void onLeaveFocus() override;
+		void onMouse(const SDL_Event& event, const coord& relative) override;
 
 		inline void renderText(SDL_Surface* surface, int line, const string&);
 
 	private:
 		void updateCaret();
 		void ensureCaretVisible();
+		void virtualCol();
 
 		int window_rows;	// number of rows in the area
 		int window_cols;	// number of lines in the area
@@ -41,4 +43,7 @@ class Editor : public Widget
 
 		int delay;
 		int interval;
+		int unicode;
+		bool autoindent;
+		int virtual_col;
 };

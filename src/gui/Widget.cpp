@@ -69,7 +69,8 @@ Widget* Widget::handleEvent(const SDL_Event& event)
 				if (lastFocus)
 				{
 					coord relative(lastMouse);
-					relative.substract(lastMouse);
+					coord sub(lastFocus->mRect.x1(), lastFocus->mRect.y1());
+					relative.substract(sub);
 					lastFocus->onMouse(event, relative);
 				}
 				break;

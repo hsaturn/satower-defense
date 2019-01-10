@@ -22,6 +22,10 @@ Widget(poDef), caret(8,16), mpFont(nullptr)
 			{
 				mRect.readDef(poDef);
 			}
+			else if (s=="autoindent")
+			{
+				autoindent=true;
+			}
 			else if (s=="repeat")
 			{
 				delay=poDef->getNextLong("repeat delay");
@@ -105,7 +109,6 @@ void Editor::render(SDL_Surface* surface, Uint32 ellapsed)
 
 void Editor::onKey(const SDL_KeyboardEvent& event)
 {
-	cout << "onkey" << endl;
 	switch (event.keysym.sym)
 	{
 		case SDLK_INSERT:
@@ -158,6 +161,7 @@ void Editor::onKey(const SDL_KeyboardEvent& event)
 		case SDLK_UP:
 			row--;
 			if (row<0) row=0;
+			virtualCol();
 			break;
 
 		case SDLK_DOWN:
@@ -166,6 +170,7 @@ void Editor::onKey(const SDL_KeyboardEvent& event)
 				row++;
 				if (row > lines.rbegin()->first)
 					row--;
+				virtualCol();
 			}
 			break;
 
@@ -180,9 +185,20 @@ void Editor::onKey(const SDL_KeyboardEvent& event)
 		case SDLK_RETURN:
 			{
 				lines[row].length();
+				string indent;
+				if (autoindent)
+				{
+					indent=lines[row];
+					auto nspc=indent.find_first_not_of(' ');
+					if (nspc!=string::npos)
+						indent.erase(nspc);
+					if (col>=1 && lines[row][col-1]=='{')
+						indent+="  ";
+				}
 				if (!caret.isInsertMode())
 				{
 					row++;
+					col=0;
 				}
 				else
 				{
@@ -190,7 +206,7 @@ void Editor::onKey(const SDL_KeyboardEvent& event)
 					int last_row = lines.rbegin()->first;
 					if (caret.isInsertMode())
 					{
-						pre=lines[row].substr(col, string::npos);
+						pre=indent+lines[row].substr(col, string::npos);
 						lines[row].erase(col, string::npos);
 					}
 					row++;
@@ -201,24 +217,22 @@ void Editor::onKey(const SDL_KeyboardEvent& event)
 						current++;
 					}
 					lines[current]=pre;
+					col=indent.length();
 				}
-				col=0;
 			}
 			break;
 
 		default:
-			cout << "keysym" << (int)event.keysym.sym << endl;
-			const char* k=SDL_GetKeyName(event.keysym.sym);
-			char c=0;
-			if (event.keysym.sym==SDLK_SPACE)
-				k=" ";
-			if (k[1]==0)
-				c=k[0];
-			else if (k[0]=='[' && k[2]==']')
-				c=k[1];
+			char c=(char)event.keysym.unicode;
 
 			if (c)
 			{
+				if (autoindent && (c=='}' && col>=2 && lines[row].substr(col-2,2)=="  "))
+				{
+					cout << "indent cur=" << row << "," << col << "(" << lines[row] << ")" << endl;
+					lines[row].erase(col-2,2);
+					col -=2;
+				}
 				if (caret.isInsertMode())
 				{
 					lines[row].insert(col,1,c);
@@ -229,8 +243,7 @@ void Editor::onKey(const SDL_KeyboardEvent& event)
 				}
 				col++;
 			}
-			else
-				cout << '[' << k << ']' << endl;
+			cout << event.keysym.unicode << ", [" << (char)event.keysym.unicode << "]" << endl;
 			break;
 	}
 	updateCaret();
@@ -243,18 +256,17 @@ void Editor::updateCaret()
 	x=mRect.x1()+font_w*(col-left_col);
 	y=mRect.y1()+font_h*(row-top_row);
 	caret.setPos(x,y);
-	cout << "caret=" << caret << endl;
 }
 
 void Editor::ensureCaretVisible()
 {
 	const int scroll=5;
-	while (col >= left_col+window_cols) left_col += scroll;
-	while (col < left_col) left_col-=scroll;
+	while (col >= left_col+window_cols) left_col++;
+	while (col < left_col) left_col--;
 	if (left_col<0) left_col=0;
 
-	while (row >= top_row + window_rows) top_row +=scroll;
-	while (row < top_row) top_row -=scroll;
+	while (row >= top_row + window_rows) top_row ++;
+	while (row < top_row) top_row --;
 	if (top_row<0) top_row=0;
 }
 
@@ -262,10 +274,43 @@ void Editor::onFocus()
 {
 	cout << "focus" << endl;
 	SDL_EnableKeyRepeat(delay, interval);
+	unicode = SDL_EnableUNICODE(1);
 }
 
 void Editor::onLeaveFocus()
 {
 	cout << "Leave focus" << endl;
 	SDL_EnableKeyRepeat(0,0);
+	SDL_EnableUNICODE(unicode);
+}
+
+void Editor::virtualCol()
+{
+	cout << "vcol in " << virtual_col << endl;
+	if (col<=lines[row].length()) return;
+	if (virtual_col>=0 && virtual_col<=lines[row].length())
+	{
+		col=virtual_col;
+		virtual_col=-1;
+	}
+	else
+	{
+		virtual_col=col;
+		col=lines[row].length();
+	}
+	cout << "vcol out " << virtual_col << endl;
+}
+
+void Editor::onMouse(const SDL_Event& event, const coord& relative)
+{
+	if (event.type==SDL_MOUSEBUTTONDOWN)
+	{
+		cout << "click " << relative << endl;
+		col=relative.x() / font_w + left_col;
+		row=relative.y() / font_h + top_row;
+
+		if (col > lines[row].length())
+			col=lines[row].length();
+		updateCaret();
+	}
 }
