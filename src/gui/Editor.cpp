@@ -92,6 +92,7 @@ void Editor::renderText(SDL_Surface* surface, int line, const string& str)
 			mpFont->drawSolid(surface, pos, *p);
 		pos.setX(pos.x()+font_w);
 		p++;
+		if (pos.x() > mRect.x2()) break;
 	}
 }
 
