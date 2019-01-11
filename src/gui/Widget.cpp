@@ -92,5 +92,9 @@ Widget* Widget::handleEvent(const SDL_Event& event)
 void Widget::renderAll(SDL_Surface* surface, Uint32 ellapsed)
 {
 	for(auto widget: mlstWidgets)
+	{
+		SDL_SetClipRect(surface, widget->mRect);
 		widget->render(surface, ellapsed);
+	}
+	SDL_SetClipRect(surface, nullptr);
 }

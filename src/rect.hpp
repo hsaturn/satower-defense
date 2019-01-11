@@ -14,11 +14,15 @@ class CFileParser;
 class rect
 {
 public:
-	rect(){};
+	rect() : mSdlRect(nullptr) {};
+
 	rect(const coord &tl, const coord &br)
 	:
 		mTopLeft(tl),
-		mBottomRight(br){}
+		mBottomRight(br),
+		mSdlRect(nullptr)
+		{}
+
 
 	void readDef(CFileParser* poDef);
 
@@ -31,9 +35,14 @@ public:
 	float y2() const { return mBottomRight.y(); }
 
 	bool isInside(coord c) const;
+
+	operator SDL_Rect* () const { return mSdlRect; }
+
 private:
+	void setSdlRect();
 	coord	mTopLeft;
 	coord	mBottomRight;
+	SDL_Rect* mSdlRect;
 };
 
 #endif /* RECT_HPP_ */
