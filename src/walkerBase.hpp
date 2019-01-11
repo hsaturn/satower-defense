@@ -34,7 +34,7 @@ class walkerBase : public mapelt
 		 * Once finished, the parser is after the } of the walker.
 		 * @param CFileParser* poDef the file parser containing a walker definition
 		 */
-		static void readOneFromDef(CFileParser*);
+		static walkerBase* readOneFromDef(CFileParser*);
 		virtual void drawAt(const coord &p, SDL_Surface *) const;
 
 		void drawNative(const coord &p, SDL_Surface*, const coord &oAngle, float fScale) const;
@@ -98,7 +98,7 @@ class walkerBase : public mapelt
 		float	mfSpeed;	// pixels per milliseconds
 		int		miRefCount;	// Nr of missile seeking this walker
 		mutable bool	mbVisible;	// True if visible, false if out (can be deleted if miRefCount=0)
-		int		miPathId;	// Id of a start path.
+		unsigned int		miPathId;	// Id of a start path.
 		coord	mDirection;
 		coord	moAngle;	// Angle for drawing the walker
 		float	mfRotationSpeed;	// Rotation of the walker rad/sec

@@ -103,7 +103,7 @@ void InitializePathfinder (void)
 	initialized=true;
 }
 
-int allocatePathId()
+unsigned int allocatePathId()
 {
 	for (int x = 0; x < numberPeople+1; x++)
 	{
@@ -122,9 +122,12 @@ void resetPath(int ID)
 }
 
 
-void freePathId(int ID)
+void freePathId(unsigned int ID)
 {
-	pathStatus[ID]=unused;
+   if (ID < numberPeople)
+		pathStatus[ID]=unused;
+	else
+	   cerr << "Bad path ID: " << ID << endl;
 }
 
 /**

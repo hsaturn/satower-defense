@@ -11,6 +11,9 @@
 
 using namespace std;
 
+class Canvas;
+class walkerBase;
+
 class Editor : public Widget
 {
 	public:
@@ -25,9 +28,12 @@ class Editor : public Widget
 		void onMouse(const SDL_Event& event, const coord& relative) override;
 
 		inline void renderText(SDL_Surface* surface, int line, const string&);
+		string getText() const;
+		void readFile(string sFileName);
 
 	private:
 		void updateCaret();
+		void updateOgol();
 		void ensureCaretVisible();
 		void virtualCol();
 
@@ -46,4 +52,7 @@ class Editor : public Widget
 		int unicode;
 		bool autoindent;
 		int virtual_col;
+
+		Canvas* mOgolCanvas;
+		list<walkerBase*>	mWalkers;
 };

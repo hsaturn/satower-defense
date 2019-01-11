@@ -125,7 +125,7 @@ void walkerBase::resetClosedList()
 	::resetClosedList();
 }
 
-void walkerBase::readOneFromDef(CFileParser* poDef)
+walkerBase* walkerBase::readOneFromDef(CFileParser* poDef)
 {
 	bool bDisabled(false);
 	walkerBase* poWalker=new walkerBase;
@@ -236,6 +236,8 @@ void walkerBase::readOneFromDef(CFileParser* poDef)
 
 	if (poWalker && !bDisabled)
 		walkers::registerWalker(sName,poWalker);
+
+	return poWalker;
 }
 
 void walkerBase::setDestination(coord dest,const string sFrom)

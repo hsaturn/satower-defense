@@ -24,3 +24,11 @@ walkerBase* walkers::buildWalker(const string &sName)
 	}
 	return new walkerBase(oit->second);
 }
+
+void walkers::registerWalker(const string& sName, walkerBase* pWalker)
+{
+	walkerBase* pOldWalker = gmapWalkers[sName];
+	if (pOldWalker) delete pOldWalker;
+	gmapWalkers[sName]=pWalker;
+}
+

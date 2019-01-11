@@ -5,8 +5,7 @@
  *      Author: saturn
  */
 
-#ifndef OGOL_HPP_
-#define OGOL_HPP_
+#pragma once
 
 class CFileParser;
 #include <SDL/SDL_gfxPrimitives.h>
@@ -49,106 +48,106 @@ class ogolPolygon;
 
 class ogolPencil
 {
-public:
-	ogolPencil()
-		:
-		mbDown(true),
-		mfScale(1),
-		miColor(0xFF),
-		mpoPolygon(0),
-		mbMirror(false),
-		mbExplosion(false),
-		miOpacityFactor(100)
-		{}
+	public:
+		ogolPencil()
+			:
+			mbDown(true),
+			mfScale(1),
+			miColor(0xFF),
+			mpoPolygon(0),
+			mbMirror(false),
+			mbExplosion(false),
+			miOpacityFactor(100)
+			{}
 
-	ogolPencil(bool bDown, float fScale=1)
-		:
-		mbDown(bDown),
-		mfScale(fScale),
-		miColor(0xFF),
-		mpoPolygon(0),
-		mbMirror(false),
-		mbExplosion(false),
-		miOpacityFactor(100)
-		{}
+		ogolPencil(bool bDown, float fScale=1)
+			:
+			mbDown(bDown),
+			mfScale(fScale),
+			miColor(0xFF),
+			mpoPolygon(0),
+			mbMirror(false),
+			mbExplosion(false),
+			miOpacityFactor(100)
+			{}
 
-	~ogolPencil();
+		~ogolPencil();
 
-	void down(){ mbDown=true; }
-	void up() { mbDown=false; }
-	float getScale() const;
-	void setScale(float fScale) { mfScale=fScale;}
-	bool setColor(const string &sColor);
-	bool setColor(Uint32 iColor);
+		void down(){ mbDown=true; }
+		void up() { mbDown=false; }
+		float getScale() const;
+		void setScale(float fScale) { mfScale=fScale;}
+		bool setColor(const string &sColor);
+		bool setColor(Uint32 iColor);
 
-	void setOpacity(Uint16 iPercent);
-	Uint16 getOpacityFF() {return miColor & 0xFF;};
-	void setOpacityFactor(Uint16 iPercent) { miOpacityFactor=iPercent; }
+		void setOpacity(Uint16 iPercent);
+		Uint16 getOpacityFF() {return miColor & 0xFF;};
+		void setOpacityFactor(Uint16 iPercent) { miOpacityFactor=iPercent; }
 
-	Uint32 getColor() const { return miColor;}
+		Uint32 getColor() const { return miColor;}
 
-	bool isDown() const { return mbDown; }
+		bool isDown() const { return mbDown; }
 
-	void recordPoint(coord* p, bool bWithLine);
-	/**
-	 * Start record a polygon and return the current one.
-	 * The return value must be re-entered to endRecord.
-	 * The return value *is not* the polygon recorded !
-	 */
-	ogolPolygon* recordPolygon();
+		void recordPoint(coord* p, bool bWithLine);
+		/**
+		 * Start record a polygon and return the current one.
+		 * The return value must be re-entered to endRecord.
+		 * The return value *is not* the polygon recorded !
+		 */
+		ogolPolygon* recordPolygon();
 
-	/**
-	 * Stop record a polygon and draw it with the given colors.
-	 */
-	void endRecord(ogolPolygon* p, SDL_Surface* dst, Uint32 iFillColor);
+		/**
+		 * Stop record a polygon and draw it with the given colors.
+		 */
+		void endRecord(ogolPolygon* p, SDL_Surface* dst, Uint32 iFillColor);
 
-	bool isRecordingPoly() { return mpoPolygon!=0; };
+		bool isRecordingPoly() { return mpoPolygon!=0; };
 
-	void toggleMirror()	{	mbMirror=!mbMirror; };
-	bool getMirror()	{	return mbMirror; };
-	// return 0 if bad color
-	static Uint32 stringToColor(const string &sColor, Sint16 iOpacity=100);
-	coord getShootPoint() const { return moShootPoint; };
-	void setShootPoint(const coord p) { moShootPoint=p; }
+		void toggleMirror()	{	mbMirror=!mbMirror; };
+		bool getMirror()	{	return mbMirror; };
+		// return 0 if bad color
+		static Uint32 stringToColor(const string &sColor, Sint16 iOpacity=100);
+		coord getShootPoint() const { return moShootPoint; };
+		void setShootPoint(const coord p) { moShootPoint=p; }
 
-	void setExplosion(bool bExplosion) { mbExplosion=bExplosion; }
-	bool getExplosion() const { return mbExplosion; }
+		void setExplosion(bool bExplosion) { mbExplosion=bExplosion; }
+		bool getExplosion() const { return mbExplosion; }
 
-/*	void addExplosion(ogolVectoroid* p);
-	{ mlstExplosion.push_front(p);};
-*/
-	void drawExplosion(SDL_Surface*);
+	/*	void addExplosion(ogolVectoroid* p);
+		{ mlstExplosion.push_front(p);};
+	*/
+		void drawExplosion(SDL_Surface*);
 
-	void update(int iTimerEllapsedms);
+		void update(int iTimerEllapsedms);
 
-private:
-	bool mbDown;
-	float mfScale;
-	Uint32 miColor;
-	ogolPolygon* mpoPolygon;
-	bool mbMirror;
-	coord moShootPoint;
-	bool mbExplosion;
-//	list<ogolVectoroid*>	mlstExplosion;
-	Uint32 miOpacityFactor;
+	private:
+		bool mbDown;
+		float mfScale;
+		Uint32 miColor;
+		ogolPolygon* mpoPolygon;
+		bool mbMirror;
+		coord moShootPoint;
+		bool mbExplosion;
+	//	list<ogolVectoroid*>	mlstExplosion;
+		Uint32 miOpacityFactor;
 };
 
 class ogolCommand
 {
-public:
-	ogolCommand(EOGOL_CMD iOgolCommand, long iParam1=0, long iParam2=0)
-	:
-		miOgolCommand(iOgolCommand),
-		miParam1(iParam1),
-		miParam2(iParam2){};
+	public:
+		ogolCommand(EOGOL_CMD iOgolCommand, long iParam1=0, long iParam2=0)
+		:
+			miOgolCommand(iOgolCommand),
+			miParam1(iParam1),
+			miParam2(iParam2){};
 
-	// Draw all
-	void draw(SDL_Surface*, coord* poCurrent, coord* poAngle, ogolPencil &oPencil) const;
-	EOGOL_CMD getCommand() const { return miOgolCommand; }
-private:
-	EOGOL_CMD miOgolCommand;	// TODO should be enum
-	long miParam1;	// Fixme type should be compatable with pointer
-	long miParam2;
+		// Draw all
+		void draw(SDL_Surface*, coord* poCurrent, coord* poAngle, ogolPencil &oPencil) const;
+		EOGOL_CMD getCommand() const { return miOgolCommand; }
+	private:
+		EOGOL_CMD miOgolCommand;	// TODO should be enum
+		long miParam1;	// Fixme type should be compatable with pointer
+		long miParam2;
 };
 
 /**
@@ -160,36 +159,35 @@ private:
 
 class ogol
 {
-public:
-	ogol(ogol* poParent=0);
+	public:
+		ogol(ogol* poParent=0);
 
-	/**
-	 * Read the instruction from a definition file.
-	 * this method stop parsing when } is reached
-	 */
-	void readDef(CFileParser*);
-	void draw(SDL_Surface* pDest,coord* poPosition,coord* poAngle,ogolPencil &oPencil) const;
+		/**
+		 * Read the instruction from a definition file.
+		 * this method stop parsing when } is reached
+		 */
+		void readDef(CFileParser*);
+		void draw(SDL_Surface* pDest,coord* poPosition,coord* poAngle,ogolPencil &oPencil) const;
 
-	/**
-	 * Create a float var and return its pointer
-	 * @param sName name of the variable
-	 * @return float ptr
-	 * This method may throw if MAX_OGOL_VARS is reached.
-	 */
-	float* createVar(const string &sName);
+		/**
+		 * Create a float var and return its pointer
+		 * @param sName name of the variable
+		 * @return float ptr
+		 * This method may throw if MAX_OGOL_VARS is reached.
+		 */
+		float* createVar(const string &sName);
 
-	/**
-	 * Get the mVars index of a var
-	 * @see createVar
-	 * @return the float pointer or 0
-	 */
-	float* getVar(const string &sName);
+		/**
+		 * Get the mVars index of a var
+		 * @see createVar
+		 * @return the float pointer or 0
+		 */
+		float* getVar(const string &sName);
 
-private:
-	ogol*				mpoParent;
-	list<ogolCommand*>	mlstOgol;
-	map<string,float>	mmapVars;
-	//float	mVars[MAX_OGOL_VARS];
+	private:
+		ogol*				mpoParent;
+		list<ogolCommand*>	mlstOgol;
+		map<string,float>	mmapVars;
+		//float	mVars[MAX_OGOL_VARS];
 };
 
-#endif /* OGOL_HPP_ */

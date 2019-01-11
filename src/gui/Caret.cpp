@@ -30,7 +30,7 @@ void Caret::render(SDL_Surface* surface, Uint32 ellapsed)
 
 void Caret::setPos(Uint32 x, Uint32 y)
 {
-	if (caret.x == x && caret.y == y) return;
+	if ((Uint32)caret.x == x && (Uint32)caret.y == y) return;
 	caret.x=x;
 	caret.y=y;
 	recalcInsertCaret();

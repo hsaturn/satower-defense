@@ -53,27 +53,28 @@ string Game::msRsrcPath;
 string Game::msThemePath;
 
 Game::Game()
-:
-mlScore(0),
-mlLives(20),
-mlBank(100),
-mlInterest(0),
-mlLevel(1),
-mlBonus(0),
-mpoMusic(0),
-miMusicChannel(0),
-mpoFontSmall(0),
-mpoFontButton(0),
-mpoFontHudge(0),
-mpoMap(0),
-mpTowerFont(0),
-mfHealthFactor(1.0),
-mfOgolScale(1.0),
-miBossCount(0),
-mpoLiveLostSound(0),
-miGameState(STATE_NONE),
-mpGameExtension(nullptr)
+	:
+	mlScore(0),
+	mlLives(20),
+	mlBank(100),
+	mlInterest(0),
+	mlLevel(1),
+	mlBonus(0),
+	mpoMusic(0),
+	miMusicChannel(0),
+	mpoFontSmall(0),
+	mpoFontButton(0),
+	mpoFontHudge(0),
+	mpoMap(0),
+	mpTowerFont(0),
+	mfHealthFactor(1.0),
+	mfOgolScale(1.0),
+	miBossCount(0),
+	mpoLiveLostSound(0),
+	miGameState(STATE_NONE),
+	mpGameExtension(nullptr)
 {
+	InitializePathfinder();
 	msFileNameImage = "vierge.png";
 	Sound::init(); // FIXME
 	if (msRsrcPath == "") msRsrcPath = "rsrc/";

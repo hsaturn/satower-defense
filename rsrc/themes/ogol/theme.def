@@ -61,6 +61,11 @@ button pause
 	area (198,20)-(246,68)
 }
 
+canvas display
+{
+	area (190,84)-(739,533)
+}
+
 editor ogol
 {
 	repeat 500 50
@@ -68,9 +73,6 @@ editor ogol
 	font 'CourierPrime' 12 white
 	area (12,84)-(173,532)
 	autoindent
+	canvas display
 }
 
-canvas display
-{
-	area (190,84)-(739,533)
-}

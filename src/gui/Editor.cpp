@@ -1,10 +1,18 @@
 #include <Editor.hpp>
 #include <cfileparser.hpp>
 #include <ogol.hpp>
+#include "Canvas.hpp"
+#include <ogol.hpp>
+
+#include <sstream>
+#include <fstream>
+#include <walkerBase.hpp>
+
+static const char* tmp="/tmp/test.ogol";	// TODO very ugly
 
 Editor::Editor(CFileParser *poDef)
 :
-Widget(poDef), caret(8,16), mpFont(nullptr)
+Widget(poDef), caret(8,16), mpFont(nullptr), mOgolCanvas(nullptr)
 {
 	try
 	{
@@ -21,6 +29,13 @@ Widget(poDef), caret(8,16), mpFont(nullptr)
 			if (s=="area")
 			{
 				mRect.readDef(poDef);
+			}
+			else if (s=="canvas")
+			{
+				string sCanvas=poDef->getNextIdentifier("canvas name");
+				mOgolCanvas = dynamic_cast<Canvas*>(Widget::search(sCanvas));
+				if (mOgolCanvas==nullptr)
+					poDef->throw_("Cannot find canvas "+sCanvas);
 			}
 			else if (s=="autoindent")
 			{
@@ -68,11 +83,11 @@ Widget(poDef), caret(8,16), mpFont(nullptr)
 
 	top_row=1;
 	left_col=3;
-	lines[1]="wwaouwww";
-	lines[2]="this is ogol";
 	row=1;
 	col=0;
 	updateCaret();
+	updateOgol();
+	readFile(tmp);
 }
 
 void Editor::renderText(SDL_Surface* surface, int line, const string& str)
@@ -105,6 +120,14 @@ void Editor::render(SDL_Surface* surface, Uint32 ellapsed)
 	{
 		renderText(surface, line, str);
 	}
+
+	SDL_SetClipRect(surface, nullptr);
+	coord pos(300,300);
+	for(const auto& pWalker: mWalkers)
+	{
+		pWalker->update(ellapsed);
+		pWalker->drawAt(pos, surface);
+	}
 }
 
 
@@ -130,7 +153,7 @@ void Editor::onKey(const SDL_KeyboardEvent& event)
 
 		case SDLK_DELETE:
 			{
-				if (col < lines[row].length())
+				if ((size_t)col < lines[row].length())
 				{
 					lines[row].erase(col,1);
 					break;
@@ -230,7 +253,6 @@ void Editor::onKey(const SDL_KeyboardEvent& event)
 			{
 				if (autoindent && (c=='}' && col>=2 && lines[row].substr(col-2,2)=="  "))
 				{
-					cout << "indent cur=" << row << "," << col << "(" << lines[row] << ")" << endl;
 					lines[row].erase(col-2,2);
 					col -=2;
 				}
@@ -244,10 +266,11 @@ void Editor::onKey(const SDL_KeyboardEvent& event)
 				}
 				col++;
 			}
-			cout << event.keysym.unicode << ", [" << (char)event.keysym.unicode << "]" << endl;
+			// cout << event.keysym.unicode << ", [" << (char)event.keysym.unicode << "]" << endl;
 			break;
 	}
 	updateCaret();
+	updateOgol();
 }
 
 void Editor::updateCaret()
@@ -261,7 +284,6 @@ void Editor::updateCaret()
 
 void Editor::ensureCaretVisible()
 {
-	const int scroll=5;
 	while (col >= left_col+window_cols) left_col++;
 	while (col < left_col) left_col--;
 	if (left_col<0) left_col=0;
@@ -273,23 +295,20 @@ void Editor::ensureCaretVisible()
 
 void Editor::onFocus()
 {
-	cout << "focus" << endl;
 	SDL_EnableKeyRepeat(delay, interval);
 	unicode = SDL_EnableUNICODE(1);
 }
 
 void Editor::onLeaveFocus()
 {
-	cout << "Leave focus" << endl;
 	SDL_EnableKeyRepeat(0,0);
 	SDL_EnableUNICODE(unicode);
 }
 
 void Editor::virtualCol()
 {
-	cout << "vcol in " << virtual_col << endl;
-	if (col<=lines[row].length()) return;
-	if (virtual_col>=0 && virtual_col<=lines[row].length())
+	if ((size_t)col<=lines[row].length()) return;
+	if (virtual_col>=0 && (size_t)virtual_col<=lines[row].length())
 	{
 		col=virtual_col;
 		virtual_col=-1;
@@ -299,19 +318,73 @@ void Editor::virtualCol()
 		virtual_col=col;
 		col=lines[row].length();
 	}
-	cout << "vcol out " << virtual_col << endl;
 }
 
 void Editor::onMouse(const SDL_Event& event, const coord& relative)
 {
 	if (event.type==SDL_MOUSEBUTTONDOWN)
 	{
-		cout << "click " << relative << endl;
 		col=relative.x() / font_w + left_col;
 		row=relative.y() / font_h + top_row;
 
-		if (col > lines[row].length())
+		if ((size_t)col > lines[row].length())
 			col=lines[row].length();
 		updateCaret();
+	}
+}
+
+void Editor::updateOgol()
+{
+	string s=getText();
+	{
+		ofstream f(tmp);
+		f << s;
+	}
+	CFileParser parser(tmp, true, true);
+
+
+	mWalkers.clear();
+	try
+	{
+		while(parser.good())
+		{
+			try
+			{
+				parser.checkExpectedString("walker");
+
+				walkerBase* pWalker=walkerBase::readOneFromDef(&parser);
+				mWalkers.push_back(pWalker);
+			}
+			catch(CSException *p)
+			{
+				break;
+			}
+		}
+	}
+	catch(CSException *p)
+	{
+		cerr << p->getCompleteError();
+	}
+	cout << "Walkers : " << mWalkers.size() << endl;
+}
+
+string Editor::getText() const
+{
+	stringstream s;
+	for(const auto& [line, str] : lines)
+	{
+		s << str << endl;
+	}
+	return s.str();
+}
+
+void Editor::readFile(string sFileName)
+{
+	ifstream f(tmp);
+	lines.clear();
+	int row=1;
+	while(f.good())
+	{
+		getline(f, lines[row++]);
 	}
 }

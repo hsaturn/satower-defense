@@ -33,10 +33,7 @@ public:
 	static const_iterator end() { return gmapWalkers.end(); }
 	static const_iterator find(const string &sName) { return gmapWalkers.find(sName); }
 
-	static void registerWalker(const string &sName, walkerBase* pWalker)
-	{
-		gmapWalkers[sName]=pWalker;
-	}
+	static void registerWalker(const string &sName, walkerBase* pWalker);
 private:
 	static map<string, walkerBase*>	gmapWalkers;
 };
