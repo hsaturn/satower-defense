@@ -122,7 +122,7 @@ string Game::findRsrcFile(const string &sFile, bool bTheme)
 	else if (fileExists(msRsrcPath + sFile))
 		sFileName = msRsrcPath + sFile;
 	else
-		cerr << "Unabl to locate file [" + sFile + "]";
+		cerr << "Unable to locate file [" + sFile + "]";
 	return sFileName;
 }
 
